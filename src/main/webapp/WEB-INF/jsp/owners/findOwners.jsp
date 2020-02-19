@@ -9,8 +9,8 @@
 
     <h2>Find Owners</h2>
 
-    <spring:url value="/owners.html" var="formUrl"/>
-    <form:form modelAttribute="owner" action="${fn:escapeXml(formUrl)}" method="get" class="form-horizontal"
+    
+    <form:form modelAttribute="owner" action="/owners" method="get" class="form-horizontal"
                id="search-owner-form">
         <div class="form-group">
             <div class="control-group" id="lastName">

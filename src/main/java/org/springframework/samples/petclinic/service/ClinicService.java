@@ -17,37 +17,90 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
-
+import org.springframework.samples.petclinic.repository.OwnerRepository;
+import org.springframework.samples.petclinic.repository.PetRepository;
+import org.springframework.samples.petclinic.repository.VetRepository;
+import org.springframework.samples.petclinic.repository.VisitRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Mostly used as a facade so all controllers have a single point of entry
+ * Mostly used as a facade for all Petclinic controllers Also a placeholder
+ * for @Transactional and @Cacheable annotations
  *
  * @author Michael Isvy
  */
-public interface ClinicService {
+@Service
+public class ClinicService {
 
-    Collection<PetType> findPetTypes() throws DataAccessException;
+	private PetRepository petRepository;
 
-    Owner findOwnerById(int id) throws DataAccessException;
+	private VetRepository vetRepository;
 
-    Pet findPetById(int id) throws DataAccessException;
+	private OwnerRepository ownerRepository;
 
-    void savePet(Pet pet) throws DataAccessException;
+	private VisitRepository visitRepository;
 
-    void saveVisit(Visit visit) throws DataAccessException;
+	@Autowired
+	public ClinicService(PetRepository petRepository, VetRepository vetRepository, OwnerRepository ownerRepository,
+			VisitRepository visitRepository) {
+		this.petRepository = petRepository;
+		this.vetRepository = vetRepository;
+		this.ownerRepository = ownerRepository;
+		this.visitRepository = visitRepository;
+	}
 
-    Collection<Vet> findVets() throws DataAccessException;
+	@Transactional(readOnly = true)
+	public Collection<PetType> findPetTypes() throws DataAccessException {
+		return petRepository.findPetTypes();
+	}
 
-    void saveOwner(Owner owner) throws DataAccessException;
+	@Transactional(readOnly = true)
+	public Owner findOwnerById(int id) throws DataAccessException {
+		return ownerRepository.findById(id);
+	}
 
-    Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException;
+	@Transactional(readOnly = true)
+	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
+		return ownerRepository.findByLastName(lastName);
+	}
 
-	Collection<Visit> findVisitsByPetId(int petId);
+	@Transactional
+	public void saveOwner(Owner owner) throws DataAccessException {
+		ownerRepository.save(owner);
+	}
+
+	@Transactional
+	public void saveVisit(Visit visit) throws DataAccessException {
+		visitRepository.save(visit);
+	}
+
+	@Transactional(readOnly = true)
+	public Pet findPetById(int id) throws DataAccessException {
+		return petRepository.findById(id);
+	}
+
+	@Transactional
+	public void savePet(Pet pet) throws DataAccessException {
+		petRepository.save(pet);
+	}
+
+	@Transactional(readOnly = true)
+	@Cacheable(value = "vets")
+	public Collection<Vet> findVets() throws DataAccessException {
+		return vetRepository.findAll();
+	}
+
+	public Collection<Visit> findVisitsByPetId(int petId) {
+		return visitRepository.findByPetId(petId);
+	}
 
 }

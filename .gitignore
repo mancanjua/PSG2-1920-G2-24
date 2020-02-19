@@ -1,12 +1,17 @@
-# Eclipse
-.settings/
+target/*
+.settings/*
 .classpath
 .project
-bin/
-
-# IntelliJ IDEA
+.factorypath
+.attach_pid*
 .idea
 *.iml
+/target
+.sts4-cache/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+_site/
 
-# Maven
-target/

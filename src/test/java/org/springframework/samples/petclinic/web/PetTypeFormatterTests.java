@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 /**
  * Test class for {@link PetTypeFormatter}
@@ -23,59 +24,58 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author Colin But
  */
 @ExtendWith(MockitoExtension.class)
-public class PetTypeFormatterTests {
+class PetTypeFormatterTests {
 
-    @Mock
-    private ClinicService clinicService;
+	@Mock
+	private ClinicService clinicService;
 
-    private PetTypeFormatter petTypeFormatter;
+	private PetTypeFormatter petTypeFormatter;
 
-    @BeforeEach
-    public void setup() {
-        petTypeFormatter = new PetTypeFormatter(clinicService);
-    }
+	@BeforeEach
+	void setup() {
+		petTypeFormatter = new PetTypeFormatter(clinicService);
+	}
 
-    @Test
-    public void testPrint() {
-        PetType petType = new PetType();
-        petType.setName("Hamster");
-        String petTypeName = petTypeFormatter.print(petType, Locale.ENGLISH);
-        assertEquals("Hamster", petTypeName);
-    }
+	@Test
+	void testPrint() {
+		PetType petType = new PetType();
+		petType.setName("Hamster");
+		String petTypeName = petTypeFormatter.print(petType, Locale.ENGLISH);
+		assertEquals("Hamster", petTypeName);
+	}
 
-    @Test
-    public void shouldParse() throws ParseException {
-        Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
-        PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
-        assertEquals("Bird", petType.getName());
-    }
+	@Test
+	void shouldParse() throws ParseException {
+		Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
+		PetType petType = petTypeFormatter.parse("Bird", Locale.ENGLISH);
+		assertEquals("Bird", petType.getName());
+	}
 
-    @Test
-    public void shouldThrowParseException() throws ParseException {
-        Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
-        Assertions.assertThrows(ParseException.class, () -> {
-            petTypeFormatter.parse("Fish", Locale.ENGLISH);
-        });
-    }
+	@Test
+	void shouldThrowParseException() throws ParseException {
+		Mockito.when(clinicService.findPetTypes()).thenReturn(makePetTypes());
+		Assertions.assertThrows(ParseException.class, () -> {
+			petTypeFormatter.parse("Fish", Locale.ENGLISH);
+		});
+	}
 
-    /**
-     * Helper method to produce some sample pet types just for test purpose
-     *
-     * @return {@link Collection} of {@link PetType}
-     */
-    private Collection<PetType> makePetTypes() {
-        Collection<PetType> petTypes = new ArrayList<>();
-        petTypes.add(new PetType(){
-            {
-                setName("Dog");
-            }
-        });
-        petTypes.add(new PetType(){
-            {
-                setName("Bird");
-            }
-        });
-        return petTypes;
-    }
+	/**
+	 * Helper method to produce some sample pet types just for test purpose
+	 * @return {@link Collection} of {@link PetType}
+	 */
+	private Collection<PetType> makePetTypes() {
+		Collection<PetType> petTypes = new ArrayList<>();
+		petTypes.add(new PetType() {
+			{
+				setName("Dog");
+			}
+		});
+		petTypes.add(new PetType() {
+			{
+				setName("Bird");
+			}
+		});
+		return petTypes;
+	}
 
 }
