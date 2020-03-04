@@ -78,6 +78,11 @@ public class ClinicService {
 	public void saveOwner(final Owner owner) throws DataAccessException {
 		this.ownerRepository.save(owner);
 	}
+	
+	@Transactional
+	public void removeOwner(final Owner owner) throws DataAccessException {
+		this.ownerRepository.removeOwner(owner.getId());
+	}
 
 	@Transactional
 	public void saveVisit(final Visit visit) throws DataAccessException {
