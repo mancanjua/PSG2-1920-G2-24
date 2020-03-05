@@ -38,5 +38,5 @@ public interface VetRepository {
 	 * @return a <code>Collection</code> of <code>Vet</code>s
 	 */
 	Collection<Vet> findAll() throws DataAccessException;
-
+	void removeVet(int vetId) throws DataAccessException;
 }

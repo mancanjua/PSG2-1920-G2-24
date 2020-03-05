@@ -123,4 +123,8 @@ public class ClinicService {
 			this.visitRepository.removePetVisit(v.getId());
 		}
 	}
+	
+	@Transactional
+	public void removeVet(final Vet vet) throws DataAccessException {
+		this.vetRepository.removeVet(vet.getId());}
 }

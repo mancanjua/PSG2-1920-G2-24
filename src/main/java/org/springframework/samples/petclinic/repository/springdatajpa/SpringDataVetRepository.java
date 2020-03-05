@@ -15,6 +15,11 @@
  */
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
+import javax.transaction.Transactional;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -27,4 +32,9 @@ import org.springframework.samples.petclinic.repository.VetRepository;
  */
 public interface SpringDataVetRepository extends VetRepository, Repository<Vet, Integer> {
 
+	@Override
+	@Transactional
+	@Modifying
+	@Query("DELETE FROM Vet WHERE id = ?1")
+	void removeVet(int vetId) throws DataAccessException;
 }
