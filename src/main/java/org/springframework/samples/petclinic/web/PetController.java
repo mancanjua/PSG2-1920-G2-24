@@ -133,7 +133,7 @@ public class PetController {
 	}
 
 	@GetMapping(value = "/pets/{petId}/removeAllVisits")
-	public String processPetRemoval2(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
+	public String processPetVisitsRemoval(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
 		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
 		if (pet != null && pet.getOwner().equals(owner)) {
@@ -141,19 +141,21 @@ public class PetController {
 			
 			return "redirect:/owners/{ownerId}";
 		} else {
-			throw new IllegalArgumentException("Bad pet id or the pet does not belong to the active owner.");
+			throw new IllegalArgumentException("Bad pet id, the pet does not belong to the active owner or bad visit id.");
 		}
 	}
 	@GetMapping(value = "/pets/{petId}/{visitId}/removeVisit")
-	public String processPetRemoval3(@PathVariable("petId") final int petId,@PathVariable("visitId") final int visitId, final Owner owner, final ModelMap model) {
+	public String processPetVisitRemoval(@PathVariable("petId") final int petId,@PathVariable("visitId") final int visitId, final Owner owner, final ModelMap model) {
+		
 		Pet pet = this.clinicService.findPetById(petId);
-		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
-		if (pet != null && pet.getOwner().equals(owner)) {
-			this.clinicService.removePetVisit(visits.stream().filter(x->x.getId().equals(visitId)).findFirst().get());
+		Visit visita = this.clinicService.findVisitById(visitId);
+		
+		if (pet != null && pet.getOwner().equals(owner) && pet.getVisits().contains(visita)) {
+			this.clinicService.removePetVisit(visita);
 			
 			return "redirect:/owners/{ownerId}";
 		} else {
-			throw new IllegalArgumentException("Bad pet id or the pet does not belong to the active owner.");
+			throw new IllegalArgumentException("Bad pet id, the pet does not belong to the active owner or bad visit id.");
 		}
 	}
 

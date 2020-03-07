@@ -69,14 +69,16 @@ public class VetController {
 	}
 	
 	@GetMapping(value = "/vets/{vetId}/remove")
-	public String processOwnerRemoval(@PathVariable("vetId") final int vetId, final ModelMap model) {
-		Vet vet = this.clinicService.findVets().stream().filter(x->x.getId().equals(vetId)).findFirst().get();
+	public String processVetRemoval(@PathVariable("vetId") final int vetId, final ModelMap model) {
+		
+	//	Vet vet = this.clinicService.findVets().stream().filter(x->x.getId().equals(vetId)).findFirst().get();
+		Vet vet = this.clinicService.findVetById(vetId);
 		if (vet != null) {
 			
 			this.clinicService.removeVet(vet);
 			return "redirect:/vets";
 		} else {
-			throw new IllegalArgumentException("Bad owner id.");
+			throw new IllegalArgumentException("Bad vet id.");
 		}
 	}
 
