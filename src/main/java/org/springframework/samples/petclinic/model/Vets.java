@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Arjen Poutsma
  */
-/*Manolo */
+/*Manolo Rivas*/
 @XmlRootElement
 public class Vets {
 
