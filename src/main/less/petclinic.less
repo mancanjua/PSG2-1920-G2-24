@@ -18,40 +18,47 @@
 @spring-brown:      #34302D;
 @spring-grey:       #838789;
 @spring-light-grey: #f1f1f1;
-@spring-deep-red: #8B0000;
+@spring-deep-red:   #8B0000;
 
-@body-bg:                           @spring-light-grey;
+@psg-light-grey:	#F7F7F7;
+@psg-bg-brown:		#EADCCC;
+@psg-brown:			#A36C2F;
+@psg-dark-brown:	#7F5527;
+@psg-darkest-brown: #63421E;
+@psg-orage-brown:	#AB6C1C;
+
+@body-bg:                           @psg-bg-brown;
 @text-color:                        @spring-brown;
-@link-color:                        @spring-dark-green;
-@link-hover-color:                  @spring-dark-green;
+@link-color:                        @psg-orange-brown;
+@link-hover-color:                  @psg-darkest-brown;
 
-@navbar-default-link-color:         @spring-light-grey;
-@navbar-default-link-active-color:  @spring-light-grey;
-@navbar-default-link-hover-color:   @spring-light-grey;
-@navbar-default-link-hover-bg:      @spring-green;
-@navbar-default-toggle-icon-bar-bg: @spring-light-grey;
+@navbar-default-link-color:         @psg-light-grey;
+@navbar-default-link-active-color:  @psg-light-grey;
+@navbar-default-link-hover-color:   @psg-light-grey;
+@navbar-default-link-hover-bg:      @psg-dark-brown;
+@navbar-default-toggle-icon-bar-bg: @psg-light-grey;
 @navbar-default-toggle-hover-bg:    transparent;
-@navbar-default-link-active-bg:     @spring-deep-red;
+@navbar-default-link-active-bg:     @psg-darkest-brown;
 
-@border-radius-base:             0;
-@border-radius-large:            0;
-@border-radius-small:            0;
+@border-radius-base:             1;
+@border-radius-large:            1;
+@border-radius-small:            1;
 
-@btn-default-color:              @spring-light-grey;
-@btn-default-bg:                 @spring-brown;
-@btn-default-border:             @spring-green;
+@btn-default-color:              @psg-light-grey;
+@btn-default-bg:                 @psg-brown;
+@btn-default-border:             @psg-dark-brown;
 
-@nav-tabs-active-link-hover-color:        @spring-light-grey;
+@nav-tabs-active-link-hover-color:        @psg-light-grey;
 @nav-tabs-active-link-hover-bg:           @spring-brown;
 @nav-tabs-active-link-hover-border-color: @spring-brown;
 @nav-tabs-border-color:                   @spring-brown;
 
 @pagination-active-bg:                    @spring-brown;
 @pagination-active-border:                @spring-green;
-@table-border-color:                      @spring-brown;
+@table-border-color:                      @psg-darkest-brown;
 
 .table > thead > tr > th {
-  background-color: @spring-light-grey;
+  background-color: @psg-light-grey;
   color: @spring-brown;
 }
 
@@ -198,7 +205,7 @@ table td.action-column {
 
 .container-details-table th {
   background-color: lighten(@spring-brown, 3%);
-  color: @spring-light-grey;
+  color: @psg-light-grey;
 }
 
 .status-help-content-table td {
