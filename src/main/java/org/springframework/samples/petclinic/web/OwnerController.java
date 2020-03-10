@@ -55,7 +55,7 @@ public class OwnerController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-
+/*-----------------------*/
 	@GetMapping(value = "/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();
@@ -73,7 +73,7 @@ public class OwnerController {
 			return "redirect:/owners/" + owner.getId();
 		}
 	}
-
+/*--------------------*/
 	@GetMapping(value = "/owners/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());

@@ -123,4 +123,9 @@ public class ClinicService {
 			this.visitRepository.removePetVisit(v.getId());
 		}
 	}
+	
+	@Transactional
+	public void saveVet(final Vet vet) throws DataAccessException {
+		this.vetRepository.save(vet);
+	}
 }
