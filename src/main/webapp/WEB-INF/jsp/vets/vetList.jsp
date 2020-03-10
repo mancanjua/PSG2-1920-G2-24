@@ -30,7 +30,9 @@
         </c:forEach>
         </tbody>
     </table>
-
+    
+	<a class="btn btn-default" href='<spring:url value="/vets/new" htmlEscape="true"/>'>Add Vet</a>
+	
     <table class="table-buttons">
         <tr>
             <td>
