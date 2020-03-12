@@ -113,6 +113,14 @@
                             <tr>
                                 <td><petclinic:localDate date="${hotel.startDate}" pattern="yyyy-MM-dd"/></td>
                                 <td><c:out value="${hotel.endDate}"/></td>
+                                <td>
+                                  <spring:url value="/owners/{ownerId}/pets/{petId}/hotels/remove/{hotelId}" var="ownerUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                    <spring:param name="hotelId" value="${hotel.id}"/>
+                    			</spring:url>
+                    			<a href="${fn:escapeXml(ownerUrl)}">Remove Booking</a>
+                           	 </td>
                             </tr>
                         </c:forEach>
                         <tr>
@@ -122,7 +130,7 @@
                                     <spring:param name="petId" value="${pet.id}"/>
                                 </spring:url>
                                 <a href="${fn:escapeXml(visitUrl)}">Add Stay</a>
-                            </td>
+                      		
                         </tr>
                     </table>
                 </td>

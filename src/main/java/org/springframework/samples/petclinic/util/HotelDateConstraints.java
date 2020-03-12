@@ -1,11 +1,13 @@
 package org.springframework.samples.petclinic.util;
 
+import java.security.acl.Owner;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
  
 import org.springframework.samples.petclinic.model.Hotel;
+import org.springframework.samples.petclinic.repository.HotelRepository;
  
 public class HotelDateConstraints {
  
@@ -20,6 +22,42 @@ public class HotelDateConstraints {
             invalidDate = true;
         }
         return invalidDate;
+    }
+    public static boolean invalidDates1(Hotel hotelPrevio, Hotel hotelNew) {
+    	boolean date = false;
+    	if(hotelPrevio.getEndDate().equals(hotelNew.getStartDate()) 
+    			|| hotelPrevio.getEndDate().equals(hotelNew.getEndDate()) ){
+    		date = true;
+    	}
+    	return date;
+    }
+    public static boolean invalidDates2(Hotel hotelPrevio, Hotel hotelNew) {
+    	boolean date = false;
+    	if(hotelPrevio.getStartDate().equals(hotelNew.getEndDate()) 
+    			|| hotelPrevio.getStartDate().equals(hotelNew.getStartDate())){
+    		date = true;
+    	}
+    	return date;
+    }
+    
+    public static boolean invalidDates3(Hotel hotelPrevio, Hotel hotelNew) {
+    	boolean date = false;
+    	if((hotelNew.getStartDate().isAfter(hotelPrevio.getStartDate()) 
+    			&& hotelNew.getStartDate().isBefore(hotelPrevio.getEndDate())) 
+    			|| (hotelNew.getEndDate().isBefore(hotelPrevio.getEndDate()) 
+    					&& hotelNew.getEndDate().isAfter(hotelPrevio.getStartDate()))){
+    		date = true;
+    	}
+    	return date;
+    }
+    
+    public static boolean invalidDates4(Hotel hotelPrevio, Hotel hotelNew) {
+    	boolean date = false;
+    	if(hotelNew.getStartDate().isBefore(hotelPrevio.getStartDate()) 
+    			&& hotelNew.getEndDate().isAfter(hotelPrevio.getEndDate())){
+    		date = true;
+    	}
+    	return date;
     }
     
     //Añadir aqui el método de validar los intervalos de las fechas.

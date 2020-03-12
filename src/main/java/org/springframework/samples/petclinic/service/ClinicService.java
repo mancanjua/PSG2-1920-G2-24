@@ -134,7 +134,11 @@ public class ClinicService {
         hotelRepository.save(hotel);
     }
  
-   ////////
+   @Transactional
+   public void removeHotel(final Hotel hotel) throws DataAccessException {
+		this.hotelRepository.removeHotel(hotel.getId());
+	
+   }
  
     @Transactional(readOnly = true)
     public Hotel findHotelById(int hotelId) {
@@ -144,7 +148,8 @@ public class ClinicService {
     @Transactional(readOnly = true)
     public Collection<Hotel> findHotelsByPetId(final int petId) {
         return hotelRepository.findByPetId(petId);
-    }
+    
+	}
  
    
 }

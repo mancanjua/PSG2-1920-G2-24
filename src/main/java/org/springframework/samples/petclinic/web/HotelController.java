@@ -1,15 +1,16 @@
 package org.springframework.samples.petclinic.web;
 import java.util.Collection;
 import java.util.Map;
- 
+
 import javax.validation.Valid;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.util.HotelDateConstraints;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,9 +57,28 @@ public class HotelController {
                     result.rejectValue("endDate", "startDateIsAfterEndDate",
                             "The start date must be before the end date");
                 }
-                
-                //AQUI HAY QUE AÑADIR LA RESTRICCION DE FECHAS EN INTERVALOS
-            }
+              
+            }            
+            for(Hotel a : hotels)
+            	if(HotelDateConstraints.invalidDates1(a, hotel)) {
+           	 result.rejectValue("startDate", "startAndEndError",
+                   "The start date cannot be the end date of a previous booking");
+            	}
+            for(Hotel a : hotels)
+            if(HotelDateConstraints.invalidDates2(a, hotel)) {
+            		result.rejectValue("endDate", "startAndEndError", 
+            				"The end date cannot be the start date of a previous booking");
+            	}
+            for(Hotel a : hotels)
+            if(HotelDateConstraints.invalidDates3(a, hotel)){
+            		result.rejectValue("endDate", "startAndEndError", 
+            				"This booking is contained in another");
+            	}
+            for(Hotel a : hotels)
+            if(HotelDateConstraints.invalidDates4(a, hotel)) {
+            		result.rejectValue("startDate", "startAndEndError", 
+            				"This booking cannot contain another");
+            	}
         }
  
         if (result.hasErrors()) {
@@ -76,15 +96,18 @@ public class HotelController {
         return "hotelList";
     }
  
-    @GetMapping(value = "/owners/{ownerId}/pets/{petId}/hotels/{hotelId}/delete")
-    public String delete(@PathVariable("hotelId") int hotelId, @PathVariable("petId") int petId) {
- 
-        Pet pet = this.clinicService.findPetById(petId);
-        Hotel hotel = this.clinicService.findHotelById(hotelId);
-        pet.deleteHotel(hotel);
-        this.clinicService.savePet(pet);
- 
-        return "redirect:/owners/{ownerId}";
- 
-    }
+    @GetMapping(path="/hotels/remove/{hotelId}")
+	public String processHotelRemoval(@PathVariable("hotelId") int hotelId,final ModelMap model) {
+		Hotel hotel = this.clinicService.findHotelById(hotelId);
+		String view ="owners/{ownerId}";
+		if (hotel != null) {
+			this.clinicService.removeHotel(hotel);
+			model.addAttribute("message", "Booking succesfully deleted!");
+		} else {
+			model.addAttribute("message", "Booking not found!");
+		}
+		
+		return view;
+	}
+
 }
