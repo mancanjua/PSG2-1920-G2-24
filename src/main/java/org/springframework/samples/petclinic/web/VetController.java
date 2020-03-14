@@ -16,12 +16,19 @@
 package org.springframework.samples.petclinic.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Vets;
+import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -59,6 +66,20 @@ public class VetController {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
+	}
+	
+	@GetMapping(value = "/vets/{vetId}/remove")
+	public String processVetRemoval(@PathVariable("vetId") final int vetId, final ModelMap model) {
+		
+	//	Vet vet = this.clinicService.findVets().stream().filter(x->x.getId().equals(vetId)).findFirst().get();
+		Vet vet = this.clinicService.findVetById(vetId);
+		if (vet != null) {
+			
+			this.clinicService.removeVet(vet);
+			return "redirect:/vets";
+		} else {
+			throw new IllegalArgumentException("Bad vet id.");
+		}
 	}
 
 }
