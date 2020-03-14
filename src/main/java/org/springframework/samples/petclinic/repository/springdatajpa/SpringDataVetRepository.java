@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import javax.transaction.Transactional;
@@ -20,6 +21,7 @@ import javax.transaction.Transactional;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import java.util.Collection;
 import org.springframework.data.repository.Repository;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.repository.VetRepository;
@@ -37,4 +39,8 @@ public interface SpringDataVetRepository extends VetRepository, Repository<Vet, 
 	@Modifying
 	@Query("DELETE FROM Vet WHERE id = ?1")
 	void removeVet(int vetId) throws DataAccessException;
+    
+	@Override
+	@Query("select vet from Vet vet join vet.specialties s where s.id=?1")
+	Collection<Vet> findBySpecialtyId(int id) throws DataAccessException;
 }
