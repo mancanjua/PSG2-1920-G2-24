@@ -95,19 +95,4 @@ public class HotelController {
         model.put("hotels", this.clinicService.findPetById(petId).getHotels());
         return "hotelList";
     }
- 
-    @GetMapping(path="/hotels/remove/{hotelId}")
-	public String processHotelRemoval(@PathVariable("hotelId") int hotelId,final ModelMap model) {
-		Hotel hotel = this.clinicService.findHotelById(hotelId);
-		String view ="owners/{ownerId}";
-		if (hotel != null) {
-			this.clinicService.removeHotel(hotel);
-			model.addAttribute("message", "Booking succesfully deleted!");
-		} else {
-			model.addAttribute("message", "Booking not found!");
-		}
-		
-		return view;
-	}
-
 }
