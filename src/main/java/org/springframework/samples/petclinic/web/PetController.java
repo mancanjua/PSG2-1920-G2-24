@@ -119,17 +119,5 @@ public class PetController {
 		}
 	}
 
-	@GetMapping(value = "/pets/{petId}/remove")
-	public String processPetRemoval(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
-		Pet pet = this.clinicService.findPetById(petId);
-		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
-		if (pet != null && pet.getOwner().equals(owner)) {
-			this.clinicService.removePetVisits(visits);
-			this.clinicService.removePet(pet);
-			return "redirect:/owners/{ownerId}";
-		} else {
-			throw new IllegalArgumentException("Bad pet id or the pet does not belong to the active owner.");
-		}
-	}
-
+	
 }

@@ -14,9 +14,10 @@
         <div class="form-group has-feedback">
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
-            <petclinic:inputField label="Specialties" name="specialties"/>
+            <petclinic:selectField label="Specialty " name="specialties" names="${specialties}" size="4"/>
         </div>
         <div class="form-group">
+        <input type="hidden" name="id" value="${vet.id}"/>
             <div class="col-sm-offset-2 col-sm-10">
                 <c:choose>
                     <c:when test="${vet['new']}">
@@ -30,4 +31,3 @@
         </div>
     </form:form>
 </petclinic:layout>
-
