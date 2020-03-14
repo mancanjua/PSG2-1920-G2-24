@@ -68,6 +68,11 @@ public class ClinicService {
 	}
 
 	@Transactional
+	public void removeOwner(final Owner owner) throws DataAccessException {
+		this.ownerRepository.removeOwner(owner.getId());
+	}
+	
+	@Transactional
 	public void saveVisit(final Visit visit) throws DataAccessException {
 		this.visitRepository.save(visit);
 	}
@@ -80,6 +85,11 @@ public class ClinicService {
 	@Transactional
 	public void savePet(final Pet pet) throws DataAccessException {
 		this.petRepository.save(pet);
+	}
+	
+	@Transactional
+	public void removePet(final Pet pet) throws DataAccessException {
+		this.petRepository.removePet(pet.getId());
 	}
 
 	@Transactional(readOnly = true)
@@ -96,8 +106,6 @@ public class ClinicService {
 	public Visit findVisitById(final int visitId) throws DataAccessException {
 		return this.visitRepository.findById(visitId);
 	}
-
-	}
 	@Transactional
 	public void saveVet(final Vet vet) throws DataAccessException {
 		this.vetRepository.save(vet);
@@ -107,7 +115,9 @@ public class ClinicService {
 		return this.visitRepository.findByPetId(petId);
 	}
 
-
+	public void removePetVisit(final Visit visit) {
+		this.visitRepository.removePetVisit(visit.getId());
+	}
 
 	@Transactional
 	public void deleteVetById(final int vetId) {
@@ -142,6 +152,12 @@ public class ClinicService {
 			vet.removeSpecialty(this.findSpecialtyById(specialtyId));
 		}
 		this.specialtyRepository.deleteById(specialtyId);
+	}
+	
+	public void removePetVisits(final Collection<Visit> visits) {
+		for (Visit v : visits) {
+			this.visitRepository.removePetVisit(v.getId());
+		}
 	}
 	
 	@Transactional

@@ -55,7 +55,7 @@ public class OwnerController {
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
 	}
-/*-----------------------*/
+
 	@GetMapping(value = "/owners/new")
 	public String initCreationForm(Map<String, Object> model) {
 		Owner owner = new Owner();
@@ -73,7 +73,7 @@ public class OwnerController {
 			return "redirect:/owners/" + owner.getId();
 		}
 	}
-/*--------------------*/
+
 	@GetMapping(value = "/owners/find")
 	public String initFindForm(Map<String, Object> model) {
 		model.put("owner", new Owner());
@@ -106,7 +106,7 @@ public class OwnerController {
 			return "owners/ownersList";
 		}
 	}
-/*-----------------------------------------------------------*/
+
 	@GetMapping(value = "/owners/{ownerId}/edit")
 	public String initUpdateOwnerForm(@PathVariable("ownerId") int ownerId, Model model) {
 		Owner owner = this.clinicService.findOwnerById(ownerId);
@@ -126,7 +126,7 @@ public class OwnerController {
 			return "redirect:/owners/{ownerId}";
 		}
 	}
-	/*-----------------------------------------------------------*/
+
 	/**
 	 * Custom handler for displaying an owner.
 	 * @param ownerId the ID of the owner to display
@@ -139,6 +139,20 @@ public class OwnerController {
 		return mav;
 	}
 	
+	@GetMapping(value = "/owners/{ownerId}/remove")
+	public String processOwnerRemoval(@PathVariable("ownerId") final int ownerId, final ModelMap model) {
+		Owner owner = this.clinicService.findOwnerById(ownerId);
+		if (owner != null) {
+			for(Pet p:owner.getPets()) {
+				Collection<Visit> visits = this.clinicService.findVisitsByPetId(p.getId());
+				this.clinicService.removePetVisits(visits);
+				this.clinicService.removePet(p);
+			}
+			this.clinicService.removeOwner(owner);
+			return "redirect:/owners?lastName=";
+		} else {
+			throw new IllegalArgumentException("Bad owner id.");
+		}
+	}
+
 }
-	
-	

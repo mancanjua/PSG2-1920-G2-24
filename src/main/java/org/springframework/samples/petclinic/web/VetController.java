@@ -84,23 +84,9 @@ public class VetController {
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
 	}
-	
-	@GetMapping(value = "/vets/{vetId}/remove")
-	public String processVetRemoval(@PathVariable("vetId") final int vetId, final ModelMap model) {
-		
-	//	Vet vet = this.clinicService.findVets().stream().filter(x->x.getId().equals(vetId)).findFirst().get();
-		Vet vet = this.clinicService.findVetById(vetId);
-		if (vet != null) {
-			
-			this.clinicService.removeVet(vet);
-			return "redirect:/vets";
-		} else {
-			throw new IllegalArgumentException("Bad vet id.");
-		}
-	}
 
 	@GetMapping(value = "/vets/{vetId}/delete")
-	public String deleteById(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
+	public String deleteVetById(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
 		this.clinicService.findVetById(vetId).removeAllSpecialties();
 		this.clinicService.deleteVetById(vetId);
 		return this.showVetList(model);
@@ -154,7 +140,7 @@ public class VetController {
 	}
 
 	@GetMapping(value = "/vets/{vetId}/removeSpecialty/{specialtyId}")
-	public String deletePetById(@PathVariable("specialtyId") final int specialtyId, @PathVariable("vetId") final int vetId) {
+	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId, @PathVariable("vetId") final int vetId) {
 
 		Specialty sp = this.clinicService.findSpecialtyById(specialtyId);
 		Vet vet = this.clinicService.findVetById(vetId);
