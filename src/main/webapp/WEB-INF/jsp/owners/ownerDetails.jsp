@@ -118,6 +118,39 @@
                         </tr>
                     </table>
                 </td>
+                <td valign="top">
+                    <table class="table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Start Book Date</th>
+                            <th>End Book Date</th>
+                        </tr>
+                        </thead>
+                        <c:forEach var="hotel" items="${pet.hotels}">
+                            <tr>
+                                <td><petclinic:localDate date="${hotel.startDate}" pattern="yyyy-MM-dd"/></td>
+                                <td><c:out value="${hotel.endDate}"/></td>
+                                <td>
+                                  <spring:url value="/owners/{ownerId}/pets/{petId}/hotels/remove/{hotelId}" var="ownerUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                    <spring:param name="hotelId" value="${hotel.id}"/>
+                    			</spring:url>
+                    			<a href="${fn:escapeXml(ownerUrl)}">Remove Booking</a>
+                           	 </td>
+                            </tr>
+                        </c:forEach>
+                        <tr>
+                        <td>
+                                <spring:url value="/owners/{ownerId}/pets/{petId}/hotels/new" var="visitUrl">
+                                    <spring:param name="ownerId" value="${owner.id}"/>
+                                    <spring:param name="petId" value="${pet.id}"/>
+                                </spring:url>
+                                <a href="${fn:escapeXml(visitUrl)}">Add Stay</a>
+                      		
+                        </tr>
+                    </table>
+                </td>
             </tr>
 
         </c:forEach>

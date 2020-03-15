@@ -51,3 +51,8 @@ INSERT INTO visits VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits VALUES (4, 7, '2013-01-04', 'spayed');
+
+INSERT INTO hotels VALUES (1, 5, 'Reserva de hotel', '2019-06-11', '2019-06-23');
+INSERT INTO hotels VALUES (2, 6, 'Reserva de hotel', '2019-03-30', '2019-03-02');
+INSERT INTO hotels VALUES (3, 7, 'Reserva de hotel', '2019-12-14', '2019-12-18');
+INSERT INTO hotels VALUES (4, 8, 'Reserva de hotel', '2019-09-05', '2019-09-09');

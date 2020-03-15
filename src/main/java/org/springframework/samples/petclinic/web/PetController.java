@@ -21,6 +21,7 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -159,4 +160,15 @@ public class PetController {
 		}
 	}
 
+	
+	@GetMapping(path="/pets/{petId}/hotels/remove/{hotelId}")
+	public String processHotelRemoval(@PathVariable("hotelId") int hotelId, @PathVariable("petId") int petId,final Owner owner,final ModelMap model) {
+		Hotel hotel = this.clinicService.findHotelById(hotelId);
+		if (hotel != null && hotel.getPet().equals(this.clinicService.findPetById(petId)) && hotel.getPet().getOwner().equals(owner)) {
+			this.clinicService.removeHotel(hotel);
+			return "redirect:/owners/{ownerId}";
+		} else {
+			throw new IllegalArgumentException("Booking not found or bad pet!");
+		}
+	}
 }
