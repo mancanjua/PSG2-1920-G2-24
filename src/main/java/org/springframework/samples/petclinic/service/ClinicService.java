@@ -166,11 +166,6 @@ public class ClinicService {
 	}
 	
 	@Transactional
-	public void removeVet(final Vet vet) throws DataAccessException {
-		this.vetRepository.removeVet(vet.getId());
-    }
-	
-	@Transactional
     public void saveHotel(Hotel hotel)  {
         hotelRepository.save(hotel);
     }
