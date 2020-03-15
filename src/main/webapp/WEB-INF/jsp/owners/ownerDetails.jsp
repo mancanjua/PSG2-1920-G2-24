@@ -74,7 +74,6 @@
                             <tr>
                                 <td><petclinic:localDate date="${visit.date}" pattern="yyyy-MM-dd"/></td>
                                 <td><c:out value="${visit.description}"/></td>
-                                 <td><c:out value="${visit.id}"/></td>
                               <td>
                                 <spring:url value="/owners/{ownerId}/pets/{petId}/{visitId}/removeVisit" var="visitUrl">
                                     <spring:param name="ownerId" value="${owner.id}"/>

@@ -22,12 +22,9 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vets;
-import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,9 +35,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collection;
-import java.util.Map;
-
 /**
  * @author Juergen Hoeller
  * @author Mark Fisher
@@ -50,21 +44,19 @@ import java.util.Map;
 @Controller
 public class VetController {
 
-	private static final String	VIEWS_VET_CREATE_OR_UPDATE_FORM	= "vets/createOrUpdateVetForm";
+	private static final String VIEWS_VET_CREATE_OR_UPDATE_FORM = "vets/createOrUpdateVetForm";
 
-	private final ClinicService	clinicService;
-
+	private final ClinicService clinicService;
 
 	@Autowired
 	public VetController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
 
-	@GetMapping(value = {
-		"/vets"
-	})
+	@GetMapping(value = { "/vets" })
 	public String showVetList(final Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// Here we are returning an object of type 'Vets' rather than a collection of
+		// Vet
 		// objects
 		// so it is simpler for Object-Xml mapping
 		Vets vets = new Vets();
@@ -73,11 +65,10 @@ public class VetController {
 		return "vets/vetList";
 	}
 
-	@GetMapping(value = {
-		"/vets.xml"
-	})
+	@GetMapping(value = { "/vets.xml" })
 	public @ResponseBody Vets showResourcesVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// Here we are returning an object of type 'Vets' rather than a collection of
+		// Vet
 		// objects
 		// so it is simpler for JSon/Object mapping
 		Vets vets = new Vets();
@@ -117,21 +108,21 @@ public class VetController {
 			return "redirect:/vets/" + vet.getId();
 		}
 	}
+
 	@GetMapping(value = "/vets/{vetId}/edit")
 	public String initUpdateVetForm(@PathVariable("vetId") final int vetId, final ModelMap model) {
 		Vet vet = this.clinicService.findVetById(vetId);
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
 		model.put("specialties", specialties);
 		model.put("vet", vet);
-
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
 
 	@PostMapping(value = "/vets/{vetId}/edit")
-	public String processUpdateVetForm(@Valid final Vet vet, final BindingResult result, @PathVariable("vetId") final int vetId, final ModelMap model) {
+	public String processUpdateVetForm(@Valid final Vet vet, final BindingResult result,
+			@PathVariable("vetId") final int vetId, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("vet", vet);
-
 			return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 		} else {
 			this.clinicService.saveVet(vet);
@@ -140,7 +131,8 @@ public class VetController {
 	}
 
 	@GetMapping(value = "/vets/{vetId}/removeSpecialty/{specialtyId}")
-	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId, @PathVariable("vetId") final int vetId) {
+	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId,
+			@PathVariable("vetId") final int vetId) {
 
 		Specialty sp = this.clinicService.findSpecialtyById(specialtyId);
 		Vet vet = this.clinicService.findVetById(vetId);
@@ -149,5 +141,4 @@ public class VetController {
 		return "redirect:/vets/{vetId}";
 
 	}
-
 }
