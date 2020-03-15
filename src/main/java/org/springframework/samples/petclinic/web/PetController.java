@@ -115,7 +115,7 @@ public class PetController {
 			model.put("pet", pet);
 			return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		} else {
-			owner.addPet(pet);
+			pet.setOwner(owner);
 			this.clinicService.savePet(pet);
 			return "redirect:/owners/{ownerId}";
 		}
