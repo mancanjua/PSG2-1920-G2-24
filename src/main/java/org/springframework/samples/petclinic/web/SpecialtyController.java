@@ -40,19 +40,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class SpecialtyController {
 
-	private static final String	VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM	= "specialties/createOrUpdateSpecialtyForm";
+	private static final String VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM = "specialties/createOrUpdateSpecialtyForm";
 
-	private final ClinicService	clinicService;
-
+	private final ClinicService clinicService;
 
 	@Autowired
 	public SpecialtyController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
 
-	@GetMapping(value = {
-		"/specialties"
-	})
+	@GetMapping(value = { "/specialties" })
 	public String showSpecialtiesList(final Map<String, Object> model) {
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
 		model.put("specialties", specialties);
@@ -81,6 +78,7 @@ public class SpecialtyController {
 			return "redirect:/specialties";
 		}
 	}
+
 	@GetMapping(value = "/specialties/{specialtyId}/edit")
 	public String initUpdateSpecialtyForm(@PathVariable("specialtyId") final int specialtyId, final ModelMap model) {
 		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);
@@ -91,7 +89,8 @@ public class SpecialtyController {
 	}
 
 	@PostMapping(value = "/specialties/{specialtyId}/edit")
-	public String processUpdateSpecialtyForm(@Valid final Specialty specialty, final BindingResult result, @PathVariable("specialtyId") final int specialtyId, final ModelMap model) {
+	public String processUpdateSpecialtyForm(@Valid final Specialty specialty, final BindingResult result,
+			@PathVariable("specialtyId") final int specialtyId, final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("specialty", specialty);
 

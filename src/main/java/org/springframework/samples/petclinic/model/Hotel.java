@@ -13,8 +13,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sun.istack.NotNull;
 
-import lombok.Data;
-
 @Entity
 @Table(name = "hotels")
 public class Hotel extends BaseEntity{
