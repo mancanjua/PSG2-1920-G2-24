@@ -125,8 +125,12 @@ public class PetController {
 	public String processPetRemoval(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
 		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
+		Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(pet.getId());
 		if (pet != null && pet.getOwner().equals(owner)) {
 			this.clinicService.removePetVisits(visits);
+			for(Hotel h : hotels) {
+				this.clinicService.removeHotel(h);
+			}
 			this.clinicService.removePet(pet);
 			return "redirect:/owners/{ownerId}";
 		} else {
