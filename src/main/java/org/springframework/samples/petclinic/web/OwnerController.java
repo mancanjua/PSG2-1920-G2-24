@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Visit;
@@ -145,7 +146,11 @@ public class OwnerController {
 		if (owner != null) {
 			for(Pet p:owner.getPets()) {
 				Collection<Visit> visits = this.clinicService.findVisitsByPetId(p.getId());
+				Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(p.getId());
 				this.clinicService.removePetVisits(visits);
+				for(Hotel h:hotels) {
+					this.clinicService.removeHotel(h);
+				}
 				this.clinicService.removePet(p);
 			}
 			this.clinicService.removeOwner(owner);
