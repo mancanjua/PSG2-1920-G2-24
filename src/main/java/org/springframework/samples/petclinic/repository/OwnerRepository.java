@@ -57,5 +57,15 @@ public interface OwnerRepository {
 	 * @see BaseEntity#isNew
 	 */
 	void save(Owner owner) throws DataAccessException;
+	
+	/**
+	 * Remove a <code>Pet</code> from the data store.
+	 * 
+	 * @param petId
+	 *            the <code>Pet</code> id to remove
+	 */
+
+	void removeOwner(int ownerId) throws DataAccessException;
+
 
 }

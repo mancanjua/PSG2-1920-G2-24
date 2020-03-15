@@ -21,10 +21,14 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
+import org.springframework.samples.petclinic.model.Pet;
+import org.springframework.samples.petclinic.model.Visit;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -64,8 +68,7 @@ public class OwnerController {
 	public String processCreationForm(@Valid Owner owner, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+		} else {
 			this.clinicService.saveOwner(owner);
 			return "redirect:/owners/" + owner.getId();
 		}
@@ -91,13 +94,11 @@ public class OwnerController {
 			// no owners found
 			result.rejectValue("lastName", "notFound", "not found");
 			return "owners/findOwners";
-		}
-		else if (results.size() == 1) {
+		} else if (results.size() == 1) {
 			// 1 owner found
 			owner = results.iterator().next();
 			return "redirect:/owners/" + owner.getId();
-		}
-		else {
+		} else {
 			// multiple owners found
 			model.put("selections", results);
 			return "owners/ownersList";
@@ -116,8 +117,7 @@ public class OwnerController {
 			@PathVariable("ownerId") int ownerId) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
-		}
-		else {
+		} else {
 			owner.setId(ownerId);
 			this.clinicService.saveOwner(owner);
 			return "redirect:/owners/{ownerId}";
@@ -126,6 +126,7 @@ public class OwnerController {
 
 	/**
 	 * Custom handler for displaying an owner.
+	 * 
 	 * @param ownerId the ID of the owner to display
 	 * @return a ModelMap with the model attributes for the view
 	 */
@@ -136,4 +137,23 @@ public class OwnerController {
 		return mav;
 	}
 
+	@GetMapping(value = "/owners/{ownerId}/remove")
+	public String processOwnerRemoval(@PathVariable("ownerId") final int ownerId, final ModelMap model) {
+		Owner owner = this.clinicService.findOwnerById(ownerId);
+		if (owner != null) {
+			for (Pet p : owner.getPets()) {
+				Collection<Visit> visits = this.clinicService.findVisitsByPetId(p.getId());
+				Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(p.getId());
+				this.clinicService.removePetVisits(visits);
+				for (Hotel h : hotels) {
+					this.clinicService.removeHotel(h);
+				}
+				this.clinicService.removePet(p);
+			}
+			this.clinicService.removeOwner(owner);
+			return "redirect:/owners?lastName=";
+		} else {
+			throw new IllegalArgumentException("Bad owner id.");
+		}
+	}
 }

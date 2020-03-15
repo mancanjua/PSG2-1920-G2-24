@@ -21,6 +21,7 @@ import java.util.Collection;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -47,10 +48,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/owners/{ownerId}")
 public class PetController {
 
-	private static final String	VIEWS_PETS_CREATE_OR_UPDATE_FORM	= "pets/createOrUpdatePetForm";
+	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
 
-	private final ClinicService	clinicService;
-
+	private final ClinicService clinicService;
 
 	@Autowired
 	public PetController(final ClinicService clinicService) {
@@ -86,7 +86,8 @@ public class PetController {
 	}
 
 	@PostMapping(value = "/pets/new")
-	public String processCreationForm(final Owner owner, @Valid final Pet pet, final BindingResult result, final ModelMap model) {
+	public String processCreationForm(final Owner owner, @Valid final Pet pet, final BindingResult result,
+			final ModelMap model) {
 		if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null) {
 			result.rejectValue("name", "duplicate", "already exists");
 		}
@@ -108,12 +109,13 @@ public class PetController {
 	}
 
 	@PostMapping(value = "/pets/{petId}/edit")
-	public String processUpdateForm(@Valid final Pet pet, final BindingResult result, final Owner owner, final ModelMap model) {
+	public String processUpdateForm(@Valid final Pet pet, final BindingResult result, final Owner owner,
+			final ModelMap model) {
 		if (result.hasErrors()) {
 			model.put("pet", pet);
 			return PetController.VIEWS_PETS_CREATE_OR_UPDATE_FORM;
 		} else {
-			owner.addPet(pet);
+			pet.setOwner(owner);
 			this.clinicService.savePet(pet);
 			return "redirect:/owners/{ownerId}";
 		}
@@ -123,8 +125,12 @@ public class PetController {
 	public String processPetRemoval(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
 		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
+		Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(pet.getId());
 		if (pet != null && pet.getOwner().equals(owner)) {
 			this.clinicService.removePetVisits(visits);
+			for(Hotel h : hotels) {
+				this.clinicService.removeHotel(h);
+			}
 			this.clinicService.removePet(pet);
 			return "redirect:/owners/{ownerId}";
 		} else {
@@ -132,4 +138,44 @@ public class PetController {
 		}
 	}
 
+	@GetMapping(value = "/pets/{petId}/removeAllVisits")
+	public String processPetVisitsRemoval(@PathVariable("petId") final int petId, final Owner owner,
+			final ModelMap model) {
+		Pet pet = this.clinicService.findPetById(petId);
+		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
+		if (pet != null && pet.getOwner().equals(owner)) {
+			this.clinicService.removePetVisits(visits);
+			return "redirect:/owners/{ownerId}";
+		} else {
+			throw new IllegalArgumentException(
+					"Bad pet id, the pet does not belong to the active owner or bad visit id.");
+		}
+	}
+
+	@GetMapping(value = "/pets/{petId}/{visitId}/removeVisit")
+	public String processPetVisitRemoval(@PathVariable("petId") final int petId,
+			@PathVariable("visitId") final int visitId, final Owner owner, final ModelMap model) {
+		Pet pet = this.clinicService.findPetById(petId);
+		Visit visita = this.clinicService.findVisitById(visitId);
+		if (pet != null && pet.getOwner().equals(owner) && pet.getVisits().contains(visita)) {
+			this.clinicService.removePetVisit(visita);
+			return "redirect:/owners/{ownerId}";
+		} else {
+			throw new IllegalArgumentException(
+					"Bad pet id, the pet does not belong to the active owner or bad visit id.");
+		}
+	}
+
+	@GetMapping(path = "/pets/{petId}/hotels/remove/{hotelId}")
+	public String processHotelRemoval(@PathVariable("hotelId") int hotelId, @PathVariable("petId") int petId,
+			final Owner owner, final ModelMap model) {
+		Hotel hotel = this.clinicService.findHotelById(hotelId);
+		if (hotel != null && hotel.getPet().equals(this.clinicService.findPetById(petId))
+				&& hotel.getPet().getOwner().equals(owner)) {
+			this.clinicService.removeHotel(hotel);
+			return "redirect:/owners/{ownerId}";
+		} else {
+			throw new IllegalArgumentException("Booking not found or bad pet!");
+		}
+	}
 }

@@ -16,6 +16,7 @@
             <th>City</th>
             <th style="width: 120px">Telephone</th>
             <th>Pets</th>
+            <th>Management</th>
         </tr>
         </thead>
         <tbody>
@@ -40,6 +41,12 @@
                     <c:forEach var="pet" items="${owner.pets}">
                         <c:out value="${pet.name} "/>
                     </c:forEach>
+                </td>
+                 <td>
+                    <spring:url value="/owners/{ownerId}/remove" var="ownerRemoveUrl">
+                        <spring:param name="ownerId" value="${owner.id}"/>
+                    </spring:url>
+                    <a href="${fn:escapeXml(ownerRemoveUrl)}">Remove owner</a>
                 </td>
             </tr>
         </c:forEach>

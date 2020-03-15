@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -53,6 +54,33 @@ class VetControllerTests {
 		helen.addSpecialty(radiology);
 		given(this.clinicService.findVets()).willReturn(Lists.newArrayList(james, helen));
 	}
+	
+	@WithMockUser(value = "spring")
+    @Test
+void testInitCreationForm() throws Exception {
+	mockMvc.perform(get("/vets/new")).andExpect(status().isOk()).andExpect(model().attributeExists("vet"))
+			.andExpect(view().name("vets/createOrUpdateVetForm"));
+}
+
+@WithMockUser(value = "spring")
+    @Test
+void testProcessCreationFormSuccess() throws Exception {
+	mockMvc.perform(post("/vets/new").param("firstName", "Joe").param("lastName", "Bloggs")
+			.param("specialties", "cirujano"))
+			.andExpect(status().is3xxRedirection());
+}
+
+@WithMockUser(value = "spring")
+    @Test
+void testProcessCreationFormHasErrors() throws Exception {
+	mockMvc.perform(
+			post("/vets/new").param("firstName", "Joe").param("lastName", "Bloggs").param("specialties", "cirujano"))
+			.andExpect(status().isOk()).andExpect(model().attributeHasErrors("vet"))
+			.andExpect(view().name("vets/createOrUpdateVetForm"));
+}
+	
+	
+	
         
         @WithMockUser(value = "spring")
 	@Test
