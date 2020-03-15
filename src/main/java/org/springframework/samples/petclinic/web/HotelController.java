@@ -10,7 +10,6 @@ import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.samples.petclinic.util.HotelDateConstraints;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,8 +56,24 @@ public class HotelController {
                     result.rejectValue("endDate", "startDateIsAfterEndDate",
                             "The start date must be before the end date");
                 }
+                
+                if(HotelDateConstraints.invalidDates5(hotel)) {
+            		result.rejectValue("startDate", "startAndEndError", 
+            				"The start date must be today or later than today");
+            	}
               
-            }            
+            }      
+            for(Hotel a : hotels)
+                if(HotelDateConstraints.equalStart(a, hotel)) {
+                		result.rejectValue("startDate", "startAndEndError", 
+                				"The start date is duplicate");
+                	}
+            for(Hotel a : hotels)
+                if(HotelDateConstraints.equalEnd(a, hotel)) {
+                		result.rejectValue("endDate", "startAndEndError", 
+                				"The end date is duplicate");
+                            	
+                	}
             for(Hotel a : hotels)
             	if(HotelDateConstraints.invalidDates1(a, hotel)) {
            	 result.rejectValue("startDate", "startAndEndError",
@@ -79,6 +94,9 @@ public class HotelController {
             		result.rejectValue("startDate", "startAndEndError", 
             				"This booking cannot contain another");
             	}
+      
+               
+                
         }
  
         if (result.hasErrors()) {
