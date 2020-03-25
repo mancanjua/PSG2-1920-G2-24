@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cause;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
@@ -16,6 +17,7 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.repository.CauseRepository;
 import org.springframework.samples.petclinic.repository.HotelRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -41,6 +43,9 @@ public class ClinicService {
 
 	private SpecialtyRepository	specialtyRepository;
 
+	@Autowired
+	private CauseRepository causeRepository;
+	
 
 	@Autowired
 	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final SpecialtyRepository specialtyRepository, final HotelRepository hotelRepository) {
@@ -184,6 +189,11 @@ public class ClinicService {
     @Transactional(readOnly = true)
     public Collection<Hotel> findHotelsByPetId(final int petId) {
         return hotelRepository.findByPetId(petId);
-    
 	}
+    
+    @Transactional
+    public void saveCause(Cause cause) {
+    	causeRepository.save(cause);
+    }
+    
 }
