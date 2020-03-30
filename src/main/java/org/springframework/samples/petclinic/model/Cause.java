@@ -15,6 +15,24 @@ import lombok.EqualsAndHashCode;
 @Table(name = "causes")
 public class Cause extends NamedEntity {
 	
+	
+	
+	public Double getTarget() {
+		return target;
+	}
+
+	public void setTarget(Double target) {
+		this.target = target;
+	}
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
 	@Column(name = "target")
 	@Digits(fraction = 2, integer = 100)
 	private Double target;

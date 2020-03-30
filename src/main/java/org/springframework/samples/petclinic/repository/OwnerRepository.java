@@ -68,7 +68,12 @@ public interface OwnerRepository {
 	void removeOwner(int ownerId) throws DataAccessException;
 
 	
+<<<<<<< HEAD
 	Collection<Owner> findAll() throws DataAccessException;
+=======
+	Collection<Owner> findAll();
+
+>>>>>>> refs/remotes/origin/feature/L3-A3.2.2
 
 
 	

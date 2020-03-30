@@ -37,3 +37,7 @@ public class OwnerFormatter implements Formatter<Owner> {
 	}
 
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/feature/L3-A3.2.2

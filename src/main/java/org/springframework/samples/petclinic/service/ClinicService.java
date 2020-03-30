@@ -196,7 +196,7 @@ public class ClinicService {
         return hotelRepository.findByPetId(petId);
 	}
     
-    @Transactional(readOnly = true)
+    @Transactional
     public void saveCause(Cause cause) {
     	causeRepository.save(cause);
     }
