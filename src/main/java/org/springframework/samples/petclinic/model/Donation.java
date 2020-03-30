@@ -60,7 +60,3 @@ public class Donation extends NamedEntity {
 	
 		
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/feature/L3-A3.2.2
