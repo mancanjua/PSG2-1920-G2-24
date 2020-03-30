@@ -22,15 +22,5 @@ public class Cause extends NamedEntity {
 	@NotBlank
 	@Column(name = "organization")
 	private String organization;
-
-	public Double getTarget() {
-		return target;
-	}
-
-	public String getOrganization() {
-		return organization;
-	}
-	
-	
 	
 }
