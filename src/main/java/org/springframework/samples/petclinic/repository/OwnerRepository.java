@@ -67,5 +67,8 @@ public interface OwnerRepository {
 
 	void removeOwner(int ownerId) throws DataAccessException;
 
+	
+	Collection<Owner> findAll();
+
 
 }
