@@ -17,7 +17,7 @@ public class OwnerFormatter implements Formatter<Owner> {
 	
 	@Autowired
 	public OwnerFormatter(ClinicService clinicService) {
-		this.clinicService =clinicService;
+		this.clinicService = clinicService;
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class OwnerFormatter implements Formatter<Owner> {
 
 	@Override
 	public Owner parse(String text, Locale locale) throws ParseException {
-		Collection<Owner> findOwner = this.clinicService.findAllOwner();
+		Collection<Owner> findOwner = this.clinicService.findAllOwners();
 		for (Owner owner: findOwner) {
 			if(owner.getFirstName().equals(text)) {
 				return owner;

@@ -15,39 +15,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/cause")
+@RequestMapping("/causes")
 public class CauseController {
 
-	private final String CREATE_VIEW = "causes/form";
+	private static final String CREATE_VIEW = "causes/form";
 	
 	@Autowired
 	private ClinicService clinicService;
 	
-	@InitBinder("cause")
+	@InitBinder("causes")
 	public void initCauseBinder(WebDataBinder dataBinder) {
 		dataBinder.addValidators(new CauseValidator());
 	}
 	
-	@GetMapping("/create")
+	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
-		Cause cause;
-		
-		cause = new Cause();
-		
+		Cause cause = new Cause();
 		model.put("cause", cause);
-		
 		return CREATE_VIEW;
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/new")
 	public String proccessCreationForm(@Valid Cause cause, BindingResult result, ModelMap model) {
 		if(result.hasErrors()) {
-			model.put("cause", cause);
 			return CREATE_VIEW;
 		}
-		
-		clinicService.saveCause(cause);
-		
+		this.clinicService.saveCause(cause);
 		return "redirect:/";
 	}
 	

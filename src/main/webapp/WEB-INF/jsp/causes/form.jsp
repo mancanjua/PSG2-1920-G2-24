@@ -12,7 +12,7 @@
 		<div class="form-group has-feedback">
 			<petclinic:inputField label="Name" name="name"/>
 			<petclinic:inputField label="Target" name="target"/>
-			<petclinic:inputField label="Organitazion" name="organization"/>
+			<petclinic:inputField label="Organization" name="organization"/>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 com-sm-10">

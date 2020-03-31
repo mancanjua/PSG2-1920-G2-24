@@ -4,33 +4,17 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
 @Table(name = "donations")
-public class Donation extends NamedEntity {
-	
-	
-	@OneToOne
-	private Owner owners;
-	
-	public void setOwners(final Owner owners) {
-		this.owners = owners;
-	}
-	
-
-	public Owner getOwners() {
-		return owners;
-	}
+public class Donation extends BaseEntity {
 	
 	@Column(name = "amount")
 	@Digits(fraction = 2, integer = 100)
@@ -40,6 +24,22 @@ public class Donation extends NamedEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate date;
 	
+	@NotNull
+	@Column(name = "owner")
+	private String owner;
+	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "cause_id")
+	private Cause cause;
+	
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
 		
 	public Double getAmount() {
 		return amount;
@@ -57,6 +57,11 @@ public class Donation extends NamedEntity {
 		this.date = date;
 	}
 	
-	
-		
+	public void setCause(final Cause cause) {
+		this.cause = cause;
+	}
+
+	public Cause getCause() {
+		return cause;
+	}
 }

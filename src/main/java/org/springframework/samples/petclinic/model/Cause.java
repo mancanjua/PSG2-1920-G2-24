@@ -1,21 +1,33 @@
 package org.springframework.samples.petclinic.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = false)
 @Table(name = "causes")
 public class Cause extends NamedEntity {
 	
+	@NotNull
+	@Column(name = "target")
+	@Digits(fraction = 2, integer = 100)
+	private Double target;
 	
+	@NotBlank
+	@Column(name = "organization")
+	private String organization;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cause", fetch = FetchType.EAGER)
+    private Set<Donation> donations;
 	
 	public Double getTarget() {
 		return target;
@@ -32,13 +44,20 @@ public class Cause extends NamedEntity {
 	public void setOrganization(String organization) {
 		this.organization = organization;
 	}
+	
+	public Set<Donation> getDonations() {
+		return this.donations;
+	}
 
-	@Column(name = "target")
-	@Digits(fraction = 2, integer = 100)
-	private Double target;
+	public void setDonations(Set<Donation> donations) {
+		this.donations = donations;
+	}
 	
-	@NotBlank
-	@Column(name = "organization")
-	private String organization;
-	
+	public void addDonation(Donation donation) {
+		if(this.donations == null) {
+			this.donations = new HashSet<>();
+		}
+		this.getDonations().add(donation);
+		donation.setCause(this);
+	}
 }

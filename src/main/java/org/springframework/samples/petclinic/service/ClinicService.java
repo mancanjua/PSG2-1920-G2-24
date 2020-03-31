@@ -66,7 +66,12 @@ public class ClinicService {
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return this.petRepository.findPetTypes();
 	}
-
+	
+	@Transactional(readOnly = true)
+	public Collection<Owner> findAllOwners() {
+		return this.ownerRepository.findAll();
+	}
+	
 	@Transactional(readOnly = true)
 	public Owner findOwnerById(final int id) throws DataAccessException {
 		return this.ownerRepository.findById(id);
@@ -177,7 +182,7 @@ public class ClinicService {
 	
 	@Transactional
     public void saveHotel(Hotel hotel)  {
-        hotelRepository.save(hotel);
+        this.hotelRepository.save(hotel);
     }
  
     @Transactional
@@ -188,28 +193,27 @@ public class ClinicService {
  
     @Transactional(readOnly = true)
     public Hotel findHotelById(int hotelId) {
-        return hotelRepository.findByHotelId(hotelId);
+        return this.hotelRepository.findByHotelId(hotelId);
     }
  
     @Transactional(readOnly = true)
     public Collection<Hotel> findHotelsByPetId(final int petId) {
-        return hotelRepository.findByPetId(petId);
+        return this.hotelRepository.findByPetId(petId);
 	}
+    
+    @Transactional(readOnly = true)
+    public Cause findCauseById(int causeId) {
+        return this.causeRepository.findById(causeId);
+    }
     
     @Transactional
     public void saveCause(Cause cause) {
-    	causeRepository.save(cause);
+    	this.causeRepository.save(cause);
     }
 
+    @Transactional
 	public void saveDonation(Donation donation) {
-		donationRepository.save(donation);
+		this.donationRepository.save(donation);
 		
 	}
-	
-	@Transactional(readOnly = true)
-	public Collection<Owner> findAllOwner() {
-		return this.ownerRepository.findAll();
-	}
-	
-    
 }
