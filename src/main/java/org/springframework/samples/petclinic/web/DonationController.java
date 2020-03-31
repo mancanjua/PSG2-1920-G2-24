@@ -67,38 +67,33 @@ public class DonationController {
 	@PostMapping("causes/{causeId}/donations/new")
 	public String proccessCreationForm(@PathVariable("causeId") final int causeId, @Valid Donation donation,
 			BindingResult result, ModelMap model) {
-		
+
 		Cause cause = this.clinicService.findCauseById(causeId);
-		
+
 //		Double cantidadDonacion = donation.getAmount();
 		if (cause != null) {
-			Double dineroDonado =  cause.getDonations()
-					.stream()
-					.map(x->x.getAmount())
-					.mapToDouble(a->a)
-					.sum();
+			Double dineroDonado = cause.getDonations().stream().map(x -> x.getAmount()).mapToDouble(a -> a).sum();
 			Double dineroRestante = cause.getTarget() - dineroDonado;
-			
-			
-			
+
 			if (result.hasErrors()) {
 				return ADD_VIEW;
 			}
 
 			if (dineroRestante > 0) { // si todavía queda dinero por donar
-					
-					donation.setCause(cause);
-					donation.setDate(LocalDate.now());
-					cause.addDonation(donation);
-					clinicService.saveCause(cause);
-					clinicService.saveDonation(donation);
 
-					return "redirect:/";
-				
+				donation.setCause(cause);
+				donation.setDate(LocalDate.now());
+				cause.addDonation(donation);
+				clinicService.saveCause(cause);
+
+				return "redirect:/";
+
 			}
 
-			else { // causa cerrada 
-				result.reject("La causa ya está cerrada porque se ha llegado al objetivo");
+			else { // causa cerrada
+				result.rejectValue("owner", "causaCerrada",
+						"La causa ya está cerrada porque se ha llegado al objetivo");
+
 				return ADD_VIEW;
 			}
 
