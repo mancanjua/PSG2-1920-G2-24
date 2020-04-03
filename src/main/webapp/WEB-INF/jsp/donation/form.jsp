@@ -14,6 +14,7 @@
 			<petclinic:selectField label="Owner " name="owner" names="${owners}" size="4"/>
 			<petclinic:hidden name="date"/>
 			<petclinic:hidden name="cause"/>
+				
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 com-sm-10">

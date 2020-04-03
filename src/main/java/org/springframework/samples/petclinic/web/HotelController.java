@@ -57,7 +57,7 @@ public class HotelController {
 					result.rejectValue("endDate", "startDateIsAfterEndDate",
 							"The start date must be before the end date");
 				}
-
+             
 				if (HotelDateConstraints.invalidDates5(hotel)) {
 					result.rejectValue("startDate", "startAndEndError",
 							"The start date must be today or later than today");
