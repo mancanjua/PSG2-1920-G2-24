@@ -9,10 +9,10 @@
 
 | Day           | [Curro]       | [Manuel]       | [Álvaro]       | [Manuel]       | [Andrea]       | [Jorge]        |
 | ------------- | ------------- | -------------  | -------------  | -------------  | -------------  | -------------  |
-| Day 1         |               |                |       -        |       -        |                |       -        |
-| Day 2         |               |                |       -        |       -        |                |       -        |
-| Day 3         |               |                |    :smiley:    |       -        |                |       -        |
-| Day 4         |               |                |                |    :smiley:    |                |       -        |
+| Day 1         |               |                |       -        |       -        |       -        |       -        |
+| Day 2         |               |                |       -        |       -        |   :worried:    |       -        |
+| Day 3         |               |                |    :smiley:    |       -        |  :fearful:     |       -        |
+| Day 4         |               |                |                |    :smiley:    | :neutral_face: |       -        |
 | Day 5         |               |                |                |                |                |    :smiley:    |
 | Day 6         |               |                |                |                |                |    :smiley:    |
 | Day 7         |               |                |                |                |                |                |
