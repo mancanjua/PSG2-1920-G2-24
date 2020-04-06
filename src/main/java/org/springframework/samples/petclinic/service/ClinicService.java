@@ -210,7 +210,7 @@ public class ClinicService {
 	}
  
       
-    @Transactional(readOnly = true)
+    @Transactional
     public Cause findCauseById(int causeId) {
         return this.causeRepository.findById(causeId);
     }

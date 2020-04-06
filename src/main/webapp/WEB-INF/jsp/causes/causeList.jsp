@@ -14,21 +14,28 @@
 				<th>Name</th>
 				<th>Present Budget</th>
 				<th>Target</th>
-				<th></th>
+				<th>Actions</th>
 				<th></th>
 			</tr>
 		</thead>
 			<tbody>
 			<c:forEach items="${causes}" var="cause">
 				<tr>
-					<td><c:out value="${cause.name}" /></td>
+					<td>
+						<spring:url value="/causes/show/{causeId}" var="showUrl">
+                        <spring:param name="causeId" value="${cause.id}"/>
+                    	</spring:url>
+                    	<a href="${fn:escapeXml(showUrl)}"><c:out value="${cause.name}"/></a>
+					</td>
 					<td><c:out value="${cause.getPresentBudget()}" /></td>
 					<td><c:out value="${cause.target}" /></td>
 					
 					<c:choose> <c:when test="${cause.target>cause.getPresentBudget()}">
 						<td><spring:url value="/causes/{causeId}/donations/new" var="newDonationUrl">
 								<spring:param name="causeId" value="${cause.id}" />
-							</spring:url> <a href="${fn:escapeXml(newDonationUrl)}" class="">New Donation</a></td>
+							</spring:url> <a href="${fn:escapeXml(newDonationUrl)}" class="">New Donation</a>
+					
+							</td>
 					</c:when>
 					<c:otherwise><td />
 					</c:otherwise>
