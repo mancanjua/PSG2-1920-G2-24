@@ -201,6 +201,17 @@ public class ClinicService {
         return this.hotelRepository.findByPetId(petId);
 	}
     
+    
+    
+	@Transactional(readOnly = true)
+	@Cacheable(value = "causes")
+	public Collection<Cause> findCauses() throws DataAccessException {
+		return this.causeRepository.findAll();
+	}
+    
+    
+    
+    
     @Transactional(readOnly = true)
     public Cause findCauseById(int causeId) {
         return this.causeRepository.findById(causeId);
