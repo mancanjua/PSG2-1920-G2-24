@@ -40,7 +40,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	</br>
+	
 	<a class="btn btn-default" href='<spring:url value="/causes/new" htmlEscape="true"/>'>Create New Cause</a>
 	
 	
