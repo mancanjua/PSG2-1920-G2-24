@@ -28,12 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Arjen Poutsma
  */
 /*Manolo Rivas*/
-@XmlRootElement
+
 public class Causes {
 
 	private List<Cause> causes;
 
-	@XmlElement
+	
 	public List<Cause> getCauseList() {
 		if (causes == null) {
 			causes = new ArrayList<>();

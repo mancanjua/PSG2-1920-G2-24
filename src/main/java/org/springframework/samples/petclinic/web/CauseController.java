@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -36,23 +38,15 @@ public class CauseController {
 	
 	
 	
-	@GetMapping(value = { "/causes" })
-	public String showCauseList(final Map<String, Object> model) {
-		Causes causes = new Causes();
-		causes.getCauseList().addAll(this.clinicService.findCauses());
-		model.put("causes", causes);
-		return "causes/causeList";
-	}
+	@GetMapping(value = "/list")
+		public String causeList(final ModelMap model) {
+		String vista = "causes/causeList";
+		Iterable<Cause> causes = this.clinicService.findCauses();
+		model.addAttribute("causes", causes);
+		return vista;
+		}
 	
-	
-	@GetMapping("/causes/{causeId}")
-	public ModelAndView showCause(@PathVariable("causeId") final int causeId) {
-		ModelAndView mav = new ModelAndView("causes/causeDetails");
-		mav.addObject(this.clinicService.findCauseById(causeId));
-		return mav;
-	}
-	
-	
+
 	
 	
 	@GetMapping("/new")

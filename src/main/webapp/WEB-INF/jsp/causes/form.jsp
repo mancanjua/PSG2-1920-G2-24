@@ -20,7 +20,6 @@
 			</div>
 			
 		</div>
-		</br>
-		 <a class="btn btn-default" href='<spring:url value="/causes" htmlEscape="true"/>'>Cause List</a>
+	
 	</form:form>
 </petclinic:layout>

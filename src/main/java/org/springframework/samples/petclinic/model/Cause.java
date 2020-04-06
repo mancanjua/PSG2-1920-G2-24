@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 @Table(name = "causes")
@@ -28,6 +30,14 @@ public class Cause extends NamedEntity {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "cause", fetch = FetchType.EAGER)
     private Set<Donation> donations;
+	
+	
+	
+		
+	public Double getPresentBudget() {
+		return this.donations.stream().mapToDouble(x -> x.getAmount()).sum();
+		
+	}
 	
 	public Double getTarget() {
 		return target;
@@ -60,4 +70,6 @@ public class Cause extends NamedEntity {
 		this.getDonations().add(donation);
 		donation.setCause(this);
 	}
+	
+
 }
