@@ -14,5 +14,6 @@ public interface CauseRepository {
     void deleteById(int id) throws DataAccessException;
     
     void save(Cause cause) throws DataAccessException;
+    
 	
 }

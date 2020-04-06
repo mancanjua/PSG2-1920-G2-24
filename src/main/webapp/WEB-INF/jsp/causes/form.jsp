@@ -18,6 +18,8 @@
 			<div class="col-sm-offset-2 com-sm-10">
 				<button class="btn btn-default" type="submit">Create cause</button>
 			</div>
+			
 		</div>
+	
 	</form:form>
 </petclinic:layout>

@@ -45,7 +45,6 @@ public class ClinicService {
 
 	private SpecialtyRepository	specialtyRepository;
 
-	@Autowired
 	private CauseRepository causeRepository;
 	
 	@Autowired 
@@ -53,13 +52,14 @@ public class ClinicService {
 	
 
 	@Autowired
-	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final SpecialtyRepository specialtyRepository, final HotelRepository hotelRepository) {
+	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final SpecialtyRepository specialtyRepository, final HotelRepository hotelRepository, final CauseRepository causeRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
 		this.ownerRepository = ownerRepository;
 		this.visitRepository = visitRepository;
 		this.hotelRepository = hotelRepository;
 		this.specialtyRepository = specialtyRepository;
+		this.causeRepository = causeRepository;
 	}
 
 	@Transactional(readOnly = true)
@@ -201,6 +201,15 @@ public class ClinicService {
         return this.hotelRepository.findByPetId(petId);
 	}
     
+    
+    
+	@Transactional(readOnly = true)
+	@Cacheable(value = "causes")
+	public Collection<Cause> findCauses() throws DataAccessException {
+		return this.causeRepository.findAll();
+	}
+ 
+      
     @Transactional(readOnly = true)
     public Cause findCauseById(int causeId) {
         return this.causeRepository.findById(causeId);
