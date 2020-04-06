@@ -61,45 +61,28 @@ public class DonationController {
 		} else {
 			throw new IllegalArgumentException("bad cause id.");
 		}
-
 	}
 
 	@PostMapping("causes/{causeId}/donations/new")
-	public String proccessCreationForm(@PathVariable("causeId") final int causeId, @Valid Donation donation,
-			BindingResult result, ModelMap model) {
-
+	public String proccessCreationForm(@PathVariable("causeId") final int causeId, @Valid Donation donation, BindingResult result, ModelMap model) {
 		Cause cause = this.clinicService.findCauseById(causeId);
-
-//		Double cantidadDonacion = donation.getAmount();
 		if (cause != null) {
-			Double dineroDonado = cause.getDonations().stream().map(x -> x.getAmount()).mapToDouble(a -> a).sum();
+			Double dineroDonado = cause.getDonations().stream().mapToDouble(x -> x.getAmount()).sum();
 			Double dineroRestante = cause.getTarget() - dineroDonado;
-
 			if (result.hasErrors()) {
 				return ADD_VIEW;
-			}
-
-			if (dineroRestante > 0) { // si todavía queda dinero por donar
-
+			}else if (dineroRestante > 0) {
 				donation.setCause(cause);
 				donation.setDate(LocalDate.now());
 				cause.addDonation(donation);
 				clinicService.saveCause(cause);
-
-				return "redirect:/";
-
-			}
-
-			else { // causa cerrada
-				result.rejectValue("owner", "causaCerrada",
-						"La causa ya está cerrada porque se ha llegado al objetivo");
-
+				return "redirect:/causes/"+causeId+"/show";
+			} else {
+				result.rejectValue("owner", "causaCerrada", "The cause is closed because we already reached the target.");
 				return ADD_VIEW;
 			}
-
 		} else {
 			throw new IllegalArgumentException("bad cause id.");
 		}
 	}
-
 }

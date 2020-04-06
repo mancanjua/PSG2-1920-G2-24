@@ -8,7 +8,6 @@
 
     <h2>Cause Information</h2>
 
-
     <table class="table table-striped">
 		<tr>
 			<th>Name</th>
@@ -29,8 +28,36 @@
 	</table>
     
     <h2>List of donations</h2>
-
     
+    <table id="donationsTable" class="table table-striped">
+		<thead>
+			<tr>
+				<th>Date</th>
+				<th>Amount</th>
+				<th>Client</th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${cause.donations}" var="donation">
+				<tr>
+					<td><petclinic:localDate date="${donation.date}" pattern="dd/MM/yyyy" /></td>
+					<td><c:out value="${donation.amount}"/></td>
+					<td><c:out value="${donation.owner}"/></td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	
+	<c:choose>
+		<c:when test="${cause.target>cause.getPresentBudget()}">
+				<spring:url value="/causes/{causeId}/donations/new" var="newDonationUrl">
+					<spring:param name="causeId" value="${cause.id}" />
+				</spring:url> 
+				<a class="btn btn-default" href='${fn:escapeXml(newDonationUrl)}'>New Donation</a>
+		</c:when>
+		<c:otherwise>
+			<p>This cause is closed.</p>
+		</c:otherwise>
+	</c:choose>
+	
 </petclinic:layout>
-
-

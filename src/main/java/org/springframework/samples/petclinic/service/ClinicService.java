@@ -1,5 +1,3 @@
-
-
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
@@ -28,7 +26,6 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class ClinicService {
@@ -144,11 +141,9 @@ public class ClinicService {
 		this.vetRepository.deleteById(vetId);
 	}
 
-
 	@Transactional
 	public void saveSpecialty(@Valid final Specialty specialty) {
 		this.specialtyRepository.save(specialty);
-
 	}
 
 	@Transactional(readOnly = true)
@@ -188,7 +183,6 @@ public class ClinicService {
     @Transactional
     public void removeHotel(final Hotel hotel) throws DataAccessException {
 	    this.hotelRepository.removeHotel(hotel.getId());
-	
     }
  
     @Transactional(readOnly = true)
@@ -201,14 +195,11 @@ public class ClinicService {
         return this.hotelRepository.findByPetId(petId);
 	}
     
-    
-    
 	@Transactional(readOnly = true)
 	@Cacheable(value = "causes")
 	public Collection<Cause> findCauses() throws DataAccessException {
 		return this.causeRepository.findAll();
 	}
- 
       
     @Transactional
     public Cause findCauseById(int causeId) {
@@ -223,6 +214,5 @@ public class ClinicService {
     @Transactional
 	public void saveDonation(Donation donation) {
 		this.donationRepository.save(donation);
-		
 	}
 }
