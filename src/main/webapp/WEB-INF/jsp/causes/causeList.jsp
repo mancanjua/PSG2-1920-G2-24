@@ -18,38 +18,27 @@
 				<th></th>
 			</tr>
 		</thead>
-			<tbody>
+		<tbody>
 			<c:forEach items="${causes}" var="cause">
 				<tr>
-					<td>
-						<spring:url value="/causes/show/{causeId}" var="showUrl">
-                        <spring:param name="causeId" value="${cause.id}"/>
-                    	</spring:url>
-                    	<a href="${fn:escapeXml(showUrl)}"><c:out value="${cause.name}"/></a>
-					</td>
-					<td><c:out value="${cause.getPresentBudget()}" /></td>
+					<td><spring:url value="/causes/{causeId}/show" var="showUrl">
+							<spring:param name="causeId" value="${cause.id}"/>
+						</spring:url> <a href="${fn:escapeXml(showUrl)}"><c:out value="${cause.name}" /></a></td>
+					<td><c:out value="${cause.getPresentBudget()}"/></td>
 					<td><c:out value="${cause.target}" /></td>
-					
-					<c:choose> <c:when test="${cause.target>cause.getPresentBudget()}">
-						<td><spring:url value="/causes/{causeId}/donations/new" var="newDonationUrl">
-								<spring:param name="causeId" value="${cause.id}" />
-							</spring:url> <a href="${fn:escapeXml(newDonationUrl)}" class="">New Donation</a>
-					
-							</td>
-					</c:when>
-					<c:otherwise><td />
-					</c:otherwise>
+					<c:choose>
+						<c:when test="${cause.target>cause.getPresentBudget()}">
+							<td><spring:url value="/causes/{causeId}/donations/new" var="newDonationUrl">
+									<spring:param name="causeId" value="${cause.id}" />
+								</spring:url> <a href="${fn:escapeXml(newDonationUrl)}" class="">New Donation</a></td>
+						</c:when>
+						<c:otherwise>
+							<td>Closed<td/>
+						</c:otherwise>
 					</c:choose>
-				
-					
 				</tr>
-
 			</c:forEach>
 		</tbody>
 	</table>
-	
 	<a class="btn btn-default" href='<spring:url value="/causes/new" htmlEscape="true"/>'>Create New Cause</a>
-	
-	
-	
 </petclinic:layout>

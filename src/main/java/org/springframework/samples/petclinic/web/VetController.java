@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
@@ -52,9 +51,6 @@ public class VetController {
 	public VetController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
-
-	
-	
 	
 	@GetMapping(value = { "/vets" })
 	public String showVetList(final Map<String, Object> model) {
@@ -63,17 +59,9 @@ public class VetController {
 		model.put("vets", vets);
 		return "vets/vetList";
 	}
-	
-	
-	
-	
 
 	@GetMapping(value = { "/vets.xml" })
 	public @ResponseBody Vets showResourcesVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of
-		// Vet
-		// objects
-		// so it is simpler for JSon/Object mapping
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
@@ -136,12 +124,10 @@ public class VetController {
 	@GetMapping(value = "/vets/{vetId}/removeSpecialty/{specialtyId}")
 	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId,
 			@PathVariable("vetId") final int vetId) {
-
 		Specialty sp = this.clinicService.findSpecialtyById(specialtyId);
 		Vet vet = this.clinicService.findVetById(vetId);
 		vet.removeSpecialty(sp);
 		this.clinicService.saveVet(vet);
 		return "redirect:/vets/{vetId}";
-
 	}
 }

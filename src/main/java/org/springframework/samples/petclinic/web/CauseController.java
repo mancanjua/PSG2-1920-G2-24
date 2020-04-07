@@ -1,15 +1,9 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cause;
-import org.springframework.samples.petclinic.model.Causes;
-import org.springframework.samples.petclinic.model.Vets;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,18 +30,13 @@ public class CauseController {
 		dataBinder.addValidators(new CauseValidator());
 	}
 	
-	
-	
-	@GetMapping(value = "/list")
-		public String causeList(final ModelMap model) {
+	@GetMapping("/list")
+	public String causeList(final ModelMap model) {
 		String vista = "causes/causeList";
 		Iterable<Cause> causes = this.clinicService.findCauses();
 		model.addAttribute("causes", causes);
 		return vista;
-		}
-	
-
-	
+	}
 	
 	@GetMapping("/new")
 	public String initCreationForm(ModelMap model) {
@@ -62,15 +51,13 @@ public class CauseController {
 			return CREATE_VIEW;
 		}
 		this.clinicService.saveCause(cause);
-		return "redirect:/";
+		return "redirect:/causes/list";
 	}
 	
-	@GetMapping("/show/{causeId}")
+	@GetMapping("/{causeId}/show")
 	public ModelAndView showCause(@PathVariable("causeId") int causeId) {
 		ModelAndView mav = new ModelAndView("causes/causeDetails");
 		mav.addObject(this.clinicService.findCauseById(causeId));
 		return mav;
 	}
-
-	
 }
