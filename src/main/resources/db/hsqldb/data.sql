@@ -56,3 +56,11 @@ INSERT INTO hotels VALUES (1, 5, 'Reserva de hotel', '2019-06-11', '2019-06-23')
 INSERT INTO hotels VALUES (2, 6, 'Reserva de hotel', '2019-03-30', '2019-03-02');
 INSERT INTO hotels VALUES (3, 7, 'Reserva de hotel', '2019-12-14', '2019-12-18');
 INSERT INTO hotels VALUES (4, 8, 'Reserva de hotel', '2019-09-05', '2019-09-09');
+
+INSERT INTO causes VALUES (1, 'Compra de mascarillas FFP2', 'Cruz Roja', 120000);
+INSERT INTO causes VALUES (2, 'Medicamentos para perros callejeros', 'WeVets', 1500);
+
+INSERT INTO donations VALUES (1, 150.2, '2020-04-05', 'Maria Escobito', 1);
+INSERT INTO donations VALUES (2, 1200, '2020-04-05', 'Harold Davis', 1);
+INSERT INTO donations VALUES (3, 750, '2020-04-05', 'George Franklin', 2);
+INSERT INTO donations VALUES (4, 750, '2020-04-05', 'Jeff Black', 2);

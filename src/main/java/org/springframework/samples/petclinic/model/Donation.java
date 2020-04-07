@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -26,6 +27,7 @@ public class Donation extends BaseEntity {
 	@Column(name = "creation_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull
+	@PastOrPresent
 	private LocalDate date;
 	
 	@NotNull
