@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 
@@ -18,10 +19,13 @@ public class Donation extends BaseEntity {
 	
 	@Column(name = "amount")
 	@Digits(fraction = 2, integer = 100)
+	@DecimalMin(inclusive = true, value = "0.01")
+	@NotNull
 	private Double amount;
 	
-	@Column(name = "date")
+	@Column(name = "creation_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
 	private LocalDate date;
 	
 	@NotNull
