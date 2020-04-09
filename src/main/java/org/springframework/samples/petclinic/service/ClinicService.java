@@ -1,5 +1,3 @@
-
-
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
@@ -9,6 +7,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Cause;
+import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.samples.petclinic.model.Hotel;
 import org.springframework.samples.petclinic.model.Owner;
 import org.springframework.samples.petclinic.model.Pet;
@@ -16,6 +16,8 @@ import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Specialty;
 import org.springframework.samples.petclinic.model.Vet;
 import org.springframework.samples.petclinic.model.Visit;
+import org.springframework.samples.petclinic.repository.CauseRepository;
+import org.springframework.samples.petclinic.repository.DonationRepository;
 import org.springframework.samples.petclinic.repository.HotelRepository;
 import org.springframework.samples.petclinic.repository.OwnerRepository;
 import org.springframework.samples.petclinic.repository.PetRepository;
@@ -24,7 +26,6 @@ import org.springframework.samples.petclinic.repository.VetRepository;
 import org.springframework.samples.petclinic.repository.VisitRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class ClinicService {
@@ -41,22 +42,33 @@ public class ClinicService {
 
 	private SpecialtyRepository	specialtyRepository;
 
+	private CauseRepository causeRepository;
+	
+	@Autowired 
+	private DonationRepository donationRepository;
+	
 
 	@Autowired
-	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final SpecialtyRepository specialtyRepository, final HotelRepository hotelRepository) {
+	public ClinicService(final PetRepository petRepository, final VetRepository vetRepository, final OwnerRepository ownerRepository, final VisitRepository visitRepository, final SpecialtyRepository specialtyRepository, final HotelRepository hotelRepository, final CauseRepository causeRepository) {
 		this.petRepository = petRepository;
 		this.vetRepository = vetRepository;
 		this.ownerRepository = ownerRepository;
 		this.visitRepository = visitRepository;
 		this.hotelRepository = hotelRepository;
 		this.specialtyRepository = specialtyRepository;
+		this.causeRepository = causeRepository;
 	}
 
 	@Transactional(readOnly = true)
 	public Collection<PetType> findPetTypes() throws DataAccessException {
 		return this.petRepository.findPetTypes();
 	}
-
+	
+	@Transactional(readOnly = true)
+	public Collection<Owner> findAllOwners() {
+		return this.ownerRepository.findAll();
+	}
+	
 	@Transactional(readOnly = true)
 	public Owner findOwnerById(final int id) throws DataAccessException {
 		return this.ownerRepository.findById(id);
@@ -129,11 +141,9 @@ public class ClinicService {
 		this.vetRepository.deleteById(vetId);
 	}
 
-
 	@Transactional
 	public void saveSpecialty(@Valid final Specialty specialty) {
 		this.specialtyRepository.save(specialty);
-
 	}
 
 	@Transactional(readOnly = true)
@@ -167,23 +177,42 @@ public class ClinicService {
 	
 	@Transactional
     public void saveHotel(Hotel hotel)  {
-        hotelRepository.save(hotel);
+        this.hotelRepository.save(hotel);
     }
  
     @Transactional
     public void removeHotel(final Hotel hotel) throws DataAccessException {
 	    this.hotelRepository.removeHotel(hotel.getId());
-	
     }
  
     @Transactional(readOnly = true)
     public Hotel findHotelById(int hotelId) {
-        return hotelRepository.findByHotelId(hotelId);
+        return this.hotelRepository.findByHotelId(hotelId);
     }
  
     @Transactional(readOnly = true)
     public Collection<Hotel> findHotelsByPetId(final int petId) {
-        return hotelRepository.findByPetId(petId);
+        return this.hotelRepository.findByPetId(petId);
+	}
     
+	@Transactional(readOnly = true)
+	@Cacheable(value = "causes")
+	public Collection<Cause> findCauses() throws DataAccessException {
+		return this.causeRepository.findAll();
+	}
+      
+    @Transactional
+    public Cause findCauseById(int causeId) {
+        return this.causeRepository.findById(causeId);
+    }
+    
+    @Transactional
+    public void saveCause(Cause cause) {
+    	this.causeRepository.save(cause);
+    }
+
+    @Transactional
+	public void saveDonation(Donation donation) {
+		this.donationRepository.save(donation);
 	}
 }

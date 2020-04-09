@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.springframework.samples.petclinic.web;
 
 import java.util.Collection;
@@ -52,31 +51,23 @@ public class VetController {
 	public VetController(final ClinicService clinicService) {
 		this.clinicService = clinicService;
 	}
-
-	@GetMapping(value = { "/vets" })
+	
+	@GetMapping("/vets")
 	public String showVetList(final Map<String, Object> model) {
-		// Here we are returning an object of type 'Vets' rather than a collection of
-		// Vet
-		// objects
-		// so it is simpler for Object-Xml mapping
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		model.put("vets", vets);
 		return "vets/vetList";
 	}
 
-	@GetMapping(value = { "/vets.xml" })
+	@GetMapping("/vets.xml")
 	public @ResponseBody Vets showResourcesVetList() {
-		// Here we are returning an object of type 'Vets' rather than a collection of
-		// Vet
-		// objects
-		// so it is simpler for JSon/Object mapping
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
 	}
 
-	@GetMapping(value = "/vets/{vetId}/delete")
+	@GetMapping("/vets/{vetId}/delete")
 	public String deleteVetById(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
 		this.clinicService.findVetById(vetId).removeAllSpecialties();
 		this.clinicService.deleteVetById(vetId);
@@ -90,7 +81,7 @@ public class VetController {
 		return mav;
 	}
 
-	@GetMapping(value = "/vets/new")
+	@GetMapping("/vets/new")
 	public String initCreationForm(final Map<String, Object> model) {
 		Vet vet = new Vet();
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
@@ -99,7 +90,7 @@ public class VetController {
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/vets/new")
+	@PostMapping("/vets/new")
 	public String processCreationForm(@Valid final Vet vet, final BindingResult result) {
 		if (result.hasErrors()) {
 			return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
@@ -109,7 +100,7 @@ public class VetController {
 		}
 	}
 
-	@GetMapping(value = "/vets/{vetId}/edit")
+	@GetMapping("/vets/{vetId}/edit")
 	public String initUpdateVetForm(@PathVariable("vetId") final int vetId, final ModelMap model) {
 		Vet vet = this.clinicService.findVetById(vetId);
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
@@ -118,7 +109,7 @@ public class VetController {
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/vets/{vetId}/edit")
+	@PostMapping("/vets/{vetId}/edit")
 	public String processUpdateVetForm(@Valid final Vet vet, final BindingResult result,
 			@PathVariable("vetId") final int vetId, final ModelMap model) {
 		if (result.hasErrors()) {
@@ -130,15 +121,13 @@ public class VetController {
 		}
 	}
 
-	@GetMapping(value = "/vets/{vetId}/removeSpecialty/{specialtyId}")
+	@GetMapping("/vets/{vetId}/removeSpecialty/{specialtyId}")
 	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId,
 			@PathVariable("vetId") final int vetId) {
-
 		Specialty sp = this.clinicService.findSpecialtyById(specialtyId);
 		Vet vet = this.clinicService.findVetById(vetId);
 		vet.removeSpecialty(sp);
 		this.clinicService.saveVet(vet);
 		return "redirect:/vets/{vetId}";
-
 	}
 }
