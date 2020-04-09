@@ -52,7 +52,7 @@ public class VetController {
 		this.clinicService = clinicService;
 	}
 	
-	@GetMapping(value = { "/vets" })
+	@GetMapping("/vets")
 	public String showVetList(final Map<String, Object> model) {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
@@ -60,14 +60,14 @@ public class VetController {
 		return "vets/vetList";
 	}
 
-	@GetMapping(value = { "/vets.xml" })
+	@GetMapping("/vets.xml")
 	public @ResponseBody Vets showResourcesVetList() {
 		Vets vets = new Vets();
 		vets.getVetList().addAll(this.clinicService.findVets());
 		return vets;
 	}
 
-	@GetMapping(value = "/vets/{vetId}/delete")
+	@GetMapping("/vets/{vetId}/delete")
 	public String deleteVetById(@PathVariable("vetId") final int vetId, final Map<String, Object> model) {
 		this.clinicService.findVetById(vetId).removeAllSpecialties();
 		this.clinicService.deleteVetById(vetId);
@@ -81,7 +81,7 @@ public class VetController {
 		return mav;
 	}
 
-	@GetMapping(value = "/vets/new")
+	@GetMapping("/vets/new")
 	public String initCreationForm(final Map<String, Object> model) {
 		Vet vet = new Vet();
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
@@ -90,7 +90,7 @@ public class VetController {
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/vets/new")
+	@PostMapping("/vets/new")
 	public String processCreationForm(@Valid final Vet vet, final BindingResult result) {
 		if (result.hasErrors()) {
 			return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
@@ -100,7 +100,7 @@ public class VetController {
 		}
 	}
 
-	@GetMapping(value = "/vets/{vetId}/edit")
+	@GetMapping("/vets/{vetId}/edit")
 	public String initUpdateVetForm(@PathVariable("vetId") final int vetId, final ModelMap model) {
 		Vet vet = this.clinicService.findVetById(vetId);
 		Collection<Specialty> specialties = this.clinicService.findAllSpecialties();
@@ -109,7 +109,7 @@ public class VetController {
 		return VetController.VIEWS_VET_CREATE_OR_UPDATE_FORM;
 	}
 
-	@PostMapping(value = "/vets/{vetId}/edit")
+	@PostMapping("/vets/{vetId}/edit")
 	public String processUpdateVetForm(@Valid final Vet vet, final BindingResult result,
 			@PathVariable("vetId") final int vetId, final ModelMap model) {
 		if (result.hasErrors()) {
@@ -121,7 +121,7 @@ public class VetController {
 		}
 	}
 
-	@GetMapping(value = "/vets/{vetId}/removeSpecialty/{specialtyId}")
+	@GetMapping("/vets/{vetId}/removeSpecialty/{specialtyId}")
 	public String deleteSpecialityById(@PathVariable("specialtyId") final int specialtyId,
 			@PathVariable("vetId") final int vetId) {
 		Specialty sp = this.clinicService.findSpecialtyById(specialtyId);
