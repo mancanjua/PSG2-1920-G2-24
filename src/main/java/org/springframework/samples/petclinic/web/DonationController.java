@@ -67,21 +67,19 @@ public class DonationController {
 	public String proccessCreationForm(@PathVariable("causeId") final int causeId, @Valid Donation donation, BindingResult result, ModelMap model) {
 		Cause cause = this.clinicService.findCauseById(causeId);
 		if (cause != null) {
-			Double dineroDonado = cause.getDonations().stream().mapToDouble(x -> x.getAmount()).sum();
-			Double dineroRestante = cause.getTarget() - dineroDonado;
 			if (result.hasErrors()) {
 				return ADD_VIEW;
-			}else if (dineroRestante > 0) {
+			}else if (cause.getTarget() > cause.getPresentBudget()) {
 				donation.setCause(cause);
 				donation.setDate(LocalDate.now());
 				cause.addDonation(donation);
 				clinicService.saveCause(cause);
 				return "redirect:/causes/"+causeId+"/show";
-			} else {
+			}else {
 				result.rejectValue("owner", "causaCerrada", "The cause is closed because we already reached the target.");
 				return ADD_VIEW;
 			}
-		} else {
+		}else {
 			throw new IllegalArgumentException("bad cause id.");
 		}
 	}
