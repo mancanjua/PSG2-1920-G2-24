@@ -17,13 +17,13 @@
 | Day 6         |       -       |      -         |                |                |                |    :smiley:    |
 | Day 7         |       -       |      -         |                |                |                |       -        |
 | Day 8         |       -       |      -         |                |                |                |       -        |
-| Day 9         |       -       |      -         |                |                |                |       -        |
-| Day 10        |       -       |      -         |                |                |                |       -        |
-| Day 11        |       -       |      -         |                |                |                |       -        |
+| Day 9         |       -       |      -         | :neutral_face: |                |                |       -        |
+| Day 10        |       -       |      -         |  :neutral_face:|                |                |       -        |
+| Day 11        |       -       |      -         |    :smiley:    |                |                |       -        |
 | Day 12        |       -       |      -         |                |                |                |       -        |
 | Day 13        |    :smiley:   |      -         |                |                |                |    :smiley:    |
-| Day 14        |               |      -         |                |                |                |       -        |
-| Day 15        |               |      -         |                |                |                |       -        |
+| Day 14        |               |      -         |   :worried:    |                |                |       -        |
+| Day 15        |               |      -         |   :smiley:     |                |                |       -        |
 | Day 16        |               | :neutral_face: |                |                |                |    :smiley:    |
 | Day 17        |               |   :fearful:    |                |                |                |                |
 | Day 18        |               |   :smiley:     |                |                |                |                |
