@@ -12,16 +12,16 @@
 | Day 1         |       -       |      -         |       -        |       -        |       -        |       -        |
 | Day 2         |       -       |      -         |       -        |       -        |   :worried:    |       -        |
 | Day 3         |       -       |      -         |    :smiley:    |       -        |  :fearful:     |       -        |
-| Day 4         |       -       |      -         |                |    :smiley:    | :neutral_face: |       -        |
-| Day 5         |       -       |      -         |                |                |                |    :smiley:    |
-| Day 6         |       -       |      -         |                |                |                |    :smiley:    |
-| Day 7         |       -       |      -         |                |                |                |       -        |
-| Day 8         |       -       |      -         |                |                |                |       -        |
+| Day 4         |       -       |      -         |        -       |    :smiley:    | :neutral_face: |       -        |
+| Day 5         |       -       |      -         |         -      |                |                |    :smiley:    |
+| Day 6         |       -       |      -         |          -     |                |                |    :smiley:    |
+| Day 7         |       -       |      -         |           -    |                |                |       -        |
+| Day 8         |       -       |      -         |            -   |                |                |       -        |
 | Day 9         |       -       |      -         | :neutral_face: |                |                |       -        |
 | Day 10        |       -       |      -         |  :neutral_face:|                |                |       -        |
 | Day 11        |       -       |      -         |    :smiley:    |                |                |       -        |
-| Day 12        |       -       |      -         |                |                |                |       -        |
-| Day 13        |    :smiley:   |      -         |                |                |                |    :smiley:    |
+| Day 12        |       -       |      -         |             -  |                |                |       -        |
+| Day 13        |    :smiley:   |      -         |              - |                |                |    :smiley:    |
 | Day 14        |               |      -         |   :worried:    |                |                |       -        |
 | Day 15        |               |      -         |   :smiley:     |                |                |       -        |
 | Day 16        |               | :neutral_face: |                |                |                |    :smiley:    |
