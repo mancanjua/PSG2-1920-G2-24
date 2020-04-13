@@ -78,6 +78,7 @@ CREATE INDEX hotels_pet_id ON hotels (pet_id);
 CREATE TABLE causes (
   id		  INTEGER IDENTITY PRIMARY KEY,
   name		  VARCHAR(50),
+  description VARCHAR(255),
   organization VARCHAR(255),
   target      DOUBLE NOT NULL
 );
