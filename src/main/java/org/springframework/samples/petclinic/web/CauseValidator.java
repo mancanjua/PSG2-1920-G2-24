@@ -18,12 +18,14 @@ public class CauseValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Cause cause = (Cause) target;
 		String name;
+		String description;
 		Double targ;
 		String organization;
 		Integer integers;
 		Integer decimals;
 		
 		name = cause.getName();
+		description = cause.getDescription();
 		targ = cause.getTarget();
 		organization = cause.getOrganization();
 		integers = targ.toString().indexOf(".");
@@ -31,6 +33,10 @@ public class CauseValidator implements Validator {
 		
 		if (!StringUtils.hasLength(name) || name.length()>50 || name.length()<3) {
 			errors.rejectValue("name", REQUIRED+" and between 3 and 50 characters", REQUIRED+" and between 3 and 50 character");
+		}
+		
+		if(description == null || description.equals("")) {
+			errors.rejectValue("description", REQUIRED, REQUIRED);
 		}
 		
 		if(integers > 100 || decimals > 2) {

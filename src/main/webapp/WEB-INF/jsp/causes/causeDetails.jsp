@@ -14,12 +14,16 @@
 			<td><b><c:out value="${cause.name}" /></b></td>
 		</tr>
 		<tr>
+			<th>Description</th>
+			<td><b><c:out value="${cause.description}" /></b></td>
+		</tr>
+		<tr>
 			<th>Target</th>
-			<td><c:out value="${cause.target}" /></td>
+			<td><c:out value="$${cause.target}" /></td>
 		</tr>
 		<tr>
 			<th>Present Bugdet</th>
-			<td><c:out value="${cause.getPresentBudget()}" /></td>
+			<td><c:out value="$${cause.getPresentBudget()}" /></td>
 		</tr>
 		<tr>
 			<th>Organization</th>

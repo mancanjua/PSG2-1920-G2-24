@@ -17,6 +17,10 @@ import javax.validation.constraints.NotNull;
 @Table(name = "causes")
 public class Cause extends NamedEntity {
 	
+	@NotBlank
+	@Column(name = "description")
+	private String description;
+	
 	@NotNull
 	@Column(name = "target")
 	@Digits(fraction = 2, integer = 100)
@@ -32,6 +36,14 @@ public class Cause extends NamedEntity {
 		
 	public Double getPresentBudget() {
 		return this.donations.stream().mapToDouble(x -> x.getAmount()).sum();
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getDescription() {
+		return this.description;
 	}
 	
 	public Double getTarget() {
