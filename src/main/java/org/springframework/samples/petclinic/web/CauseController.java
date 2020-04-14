@@ -1,9 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Cause;
+import org.springframework.samples.petclinic.model.Donation;
 import org.springframework.samples.petclinic.service.ClinicService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -57,7 +62,11 @@ public class CauseController {
 	@GetMapping("/{causeId}/show")
 	public ModelAndView showCause(@PathVariable("causeId") int causeId) {
 		ModelAndView mav = new ModelAndView("causes/causeDetails");
-		mav.addObject(this.clinicService.findCauseById(causeId));
+		Cause cause = this.clinicService.findCauseById(causeId);
+		List<Donation> donations = new ArrayList<>(cause.getDonations());
+		donations.sort(Comparator.comparing(Donation::getDate).reversed());
+		mav.addObject(cause);
+		mav.addObject("donations", donations);
 		return mav;
 	}
 }

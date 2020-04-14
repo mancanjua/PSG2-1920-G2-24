@@ -24,8 +24,8 @@
 					<td><spring:url value="/causes/{causeId}/show" var="showUrl">
 							<spring:param name="causeId" value="${cause.id}"/>
 						</spring:url> <a href="${fn:escapeXml(showUrl)}"><c:out value="${cause.name}" /></a></td>
-					<td><c:out value="$${cause.getPresentBudget()}"/></td>
-					<td><c:out value="$${cause.target}" /></td>
+					<td><c:out value="${cause.getPresentBudget()} EUR"/></td>
+					<td><c:out value="${cause.target} EUR"/></td>
 					<c:choose>
 						<c:when test="${cause.target>cause.getPresentBudget()}">
 							<td><spring:url value="/causes/{causeId}/donations/new" var="newDonationUrl">

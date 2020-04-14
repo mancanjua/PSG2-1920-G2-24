@@ -19,11 +19,11 @@
 		</tr>
 		<tr>
 			<th>Target</th>
-			<td><c:out value="$${cause.target}" /></td>
+			<td><c:out value="${cause.target} EUR" /></td>
 		</tr>
 		<tr>
 			<th>Present Bugdet</th>
-			<td><c:out value="$${cause.getPresentBudget()}" /></td>
+			<td><c:out value="${cause.getPresentBudget()} EUR" /></td>
 		</tr>
 		<tr>
 			<th>Organization</th>
@@ -42,10 +42,10 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${cause.donations}" var="donation">
+			<c:forEach items="${donations}" var="donation">
 				<tr>
 					<td><petclinic:localDate date="${donation.date}" pattern="dd/MM/yyyy" /></td>
-					<td><c:out value="${donation.amount}"/></td>
+					<td><c:out value="${donation.amount} EUR"/></td>
 					<td><c:out value="${donation.owner}"/></td>
 				</tr>
 			</c:forEach>
