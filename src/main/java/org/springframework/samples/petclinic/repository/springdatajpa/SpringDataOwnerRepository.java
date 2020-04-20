@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -47,6 +46,6 @@ public interface SpringDataOwnerRepository extends OwnerRepository, Repository<O
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Owner WHERE id = ?1")
-	void removeOwner(int ownerId) throws DataAccessException;
+	void removeOwner(int ownerId);
 
 }

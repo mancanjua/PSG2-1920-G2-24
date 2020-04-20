@@ -35,7 +35,7 @@ public class Cause extends NamedEntity {
 	
 		
 	public Double getPresentBudget() {
-		return this.donations.stream().mapToDouble(x -> x.getAmount()).sum();
+		return this.donations.stream().mapToDouble(Donation::getAmount).sum();
 	}
 	
 	public void setDescription(String description) {

@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.repository.springdatajpa;
 
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -15,6 +14,6 @@ public interface SpringDataHotelRepository extends HotelRepository, Repository<H
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Hotel WHERE id = ?1")
-	void removeHotel(int hotelId) throws DataAccessException;
+	void removeHotel(int hotelId);
 
 }
