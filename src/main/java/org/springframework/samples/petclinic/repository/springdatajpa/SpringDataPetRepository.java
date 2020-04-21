@@ -20,7 +20,6 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -38,12 +37,12 @@ public interface SpringDataPetRepository extends PetRepository, Repository<Pet, 
 
 	@Override
 	@Query("SELECT ptype FROM PetType ptype ORDER BY ptype.name")
-	List<PetType> findPetTypes() throws DataAccessException;
+	List<PetType> findPetTypes();
 
 	@Override
 	@Transactional
 	@Modifying
 	@Query("DELETE FROM Pet WHERE id = ?1")
-	void removePet(int petId) throws DataAccessException;
+	void removePet(int petId);
 
 }

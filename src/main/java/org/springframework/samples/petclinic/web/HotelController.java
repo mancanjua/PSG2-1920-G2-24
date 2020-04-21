@@ -21,6 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class HotelController {
+	
+	private static final String ENDDATE = "endDate";
+	private static final String STARTDATE = "startDate";
+	private static final String STARTANDENDERROR = "startAndEndError";
+	
 	private final ClinicService clinicService;
 
 	@Autowired
@@ -48,58 +53,46 @@ public class HotelController {
 
 	@PostMapping(value = "/owners/{ownerId}/pets/{petId}/hotels/new")
 	public String processNewHotelForm(@Valid Hotel hotel, BindingResult result) {
-		Pet pet = hotel.getPet();
-		if (pet != null) {
+		if (hotel.getPet() != null) {
 			Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(hotel.getPet().getId());
-			if (!(hotel.getStartDate() == null || hotel.getEndDate() == null)) {
-
+			if (hotel.getStartDate() != null && hotel.getEndDate() != null) {
 				if (HotelDateConstraints.invalidDates(hotel)) {
-					result.rejectValue("endDate", "startDateIsAfterEndDate",
+					result.rejectValue(ENDDATE, "startDateIsAfterEndDate",
 							"The start date must be before the end date");
 				}
-             
 				if (HotelDateConstraints.invalidDates5(hotel)) {
-					result.rejectValue("startDate", "startAndEndError",
+					result.rejectValue(STARTDATE, STARTANDENDERROR,
 							"The start date must be today or later than today");
 				}
-
+				checkDatesWithPreviousHotels(hotel, result, hotels);
 			}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.equalStart(a, hotel)) {
-					result.rejectValue("startDate", "startAndEndError", "The start date is duplicate");
-				}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.equalEnd(a, hotel)) {
-					result.rejectValue("endDate", "startAndEndError", "The end date is duplicate");
-
-				}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.invalidDates1(a, hotel)) {
-					result.rejectValue("startDate", "startAndEndError",
-							"The start date cannot be the end date of a previous booking");
-				}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.invalidDates2(a, hotel)) {
-					result.rejectValue("endDate", "startAndEndError",
-							"The end date cannot be the start date of a previous booking");
-				}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.invalidDates3(a, hotel)) {
-					result.rejectValue("endDate", "startAndEndError", "This booking is contained in another");
-				}
-			for (Hotel a : hotels)
-				if (HotelDateConstraints.invalidDates4(a, hotel)) {
-					result.rejectValue("startDate", "startAndEndError", "This booking cannot contain another");
-				}
-
 		}
-
 		if (result.hasErrors()) {
 			return "pets/createOrUpdateHotelForm";
 		} else {
-
 			this.clinicService.saveHotel(hotel);
 			return "redirect:/owners/{ownerId}";
+		}
+	}
+
+	private void checkDatesWithPreviousHotels(Hotel hotel, BindingResult result, Collection<Hotel> hotels) {
+		for (Hotel a : hotels) {
+			if (HotelDateConstraints.equalStart(a, hotel)) {
+				result.rejectValue(STARTDATE, STARTANDENDERROR, "The start date is duplicate");
+			}else if (HotelDateConstraints.invalidDates1(a, hotel)) {
+				result.rejectValue(STARTDATE, STARTANDENDERROR, 
+						"The start date cannot be the end date of a previous booking");
+			}else if (HotelDateConstraints.invalidDates4(a, hotel)) {
+				result.rejectValue(STARTDATE, STARTANDENDERROR, "This booking cannot contain another");
+			}
+			if (HotelDateConstraints.equalEnd(a, hotel)) {
+				result.rejectValue(ENDDATE, STARTANDENDERROR, "The end date is duplicate");
+			}else if (HotelDateConstraints.invalidDates2(a, hotel)) {
+				result.rejectValue(ENDDATE, STARTANDENDERROR,
+						"The end date cannot be the start date of a previous booking");
+			}else if (HotelDateConstraints.invalidDates3(a, hotel)) {
+				result.rejectValue(ENDDATE, STARTANDENDERROR, "This booking is contained in another");
+			}
 		}
 	}
 

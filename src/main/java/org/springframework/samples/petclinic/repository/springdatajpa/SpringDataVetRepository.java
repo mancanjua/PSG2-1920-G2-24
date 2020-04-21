@@ -16,7 +16,6 @@
 
 package org.springframework.samples.petclinic.repository.springdatajpa;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import java.util.Collection;
 import org.springframework.data.repository.Repository;
@@ -33,6 +32,6 @@ public interface SpringDataVetRepository extends VetRepository, Repository<Vet, 
 
 	@Override
 	@Query("select vet from Vet vet join vet.specialties s where s.id=?1")
-	Collection<Vet> findBySpecialtyId(int id) throws DataAccessException;
+	Collection<Vet> findBySpecialtyId(int id);
 	
 }

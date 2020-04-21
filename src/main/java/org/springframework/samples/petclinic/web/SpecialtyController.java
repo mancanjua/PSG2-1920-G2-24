@@ -41,7 +41,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class SpecialtyController {
 
 	private static final String VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM = "specialties/createOrUpdateSpecialtyForm";
-
+	private static final String REDIRECT_SPECIALTIES = "redirect:/specialties";
+	private static final String SPECIALTY = "specialty";
+	
+	
 	private final ClinicService clinicService;
 
 	@Autowired
@@ -59,13 +62,13 @@ public class SpecialtyController {
 	@GetMapping(value = "/specialties/{specialtyId}/delete")
 	public String deleteById(@PathVariable("specialtyId") final int specialtyId, final Map<String, Object> model) {
 		this.clinicService.deleteSpecialtyById(specialtyId);
-		return "redirect:/specialties";
+		return REDIRECT_SPECIALTIES;
 	}
 
 	@GetMapping(value = "/specialties/new")
 	public String initCreationForm(final Map<String, Object> model) {
 		Specialty specialty = new Specialty();
-		model.put("specialty", specialty);
+		model.put(SPECIALTY, specialty);
 		return SpecialtyController.VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -75,7 +78,7 @@ public class SpecialtyController {
 			return SpecialtyController.VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM;
 		} else {
 			this.clinicService.saveSpecialty(specialty);
-			return "redirect:/specialties";
+			return REDIRECT_SPECIALTIES;
 		}
 	}
 
@@ -83,7 +86,7 @@ public class SpecialtyController {
 	public String initUpdateSpecialtyForm(@PathVariable("specialtyId") final int specialtyId, final ModelMap model) {
 		Specialty specialty = this.clinicService.findSpecialtyById(specialtyId);
 
-		model.put("specialty", specialty);
+		model.put(SPECIALTY, specialty);
 
 		return SpecialtyController.VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM;
 	}
@@ -92,12 +95,12 @@ public class SpecialtyController {
 	public String processUpdateSpecialtyForm(@Valid final Specialty specialty, final BindingResult result,
 			@PathVariable("specialtyId") final int specialtyId, final ModelMap model) {
 		if (result.hasErrors()) {
-			model.put("specialty", specialty);
+			model.put(SPECIALTY, specialty);
 
 			return SpecialtyController.VIEWS_SPECIALTY_CREATE_OR_UPDATE_FORM;
 		} else {
 			this.clinicService.saveSpecialty(specialty);
-			return "redirect:/specialties";
+			return REDIRECT_SPECIALTIES;
 		}
 	}
 }
