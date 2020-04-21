@@ -8,21 +8,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "hotels")
 public class Hotel extends BaseEntity{
 	
-	
 	//Descripicion de la reserva.
 	@NotBlank
     @Column(name = "description")
     private String description;
- 
 	
 	//Fecha de inicio de la reserva en el hotel.
     @NotNull
@@ -42,7 +40,6 @@ public class Hotel extends BaseEntity{
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    
     //GETTERS AND SETTERS
 	public String getDescription() {
 		return description;
@@ -51,9 +48,6 @@ public class Hotel extends BaseEntity{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-
-
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -78,8 +72,4 @@ public class Hotel extends BaseEntity{
 	public void setPet(Pet pet) {
 		this.pet = pet;
 	}
-   
-    
- 
-    
 }

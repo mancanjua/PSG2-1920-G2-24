@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import org.springframework.samples.petclinic.exception.CrashRuntimeException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -31,7 +32,7 @@ public class CrashController {
 
 	@GetMapping(value = "/oups")
 	public String triggerException() {
-		throw new RuntimeException(
+		throw new CrashRuntimeException(
 				"Expected: controller used to showcase what " + "happens when an exception is thrown");
 	}
 

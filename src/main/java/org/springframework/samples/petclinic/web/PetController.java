@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PetController {
 
 	private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdatePetForm";
+	private static final String REDIRECT = "redirect:/owners/{ownerId}";
 
 	private final ClinicService clinicService;
 
@@ -97,7 +98,7 @@ public class PetController {
 		} else {
 			owner.addPet(pet);
 			this.clinicService.savePet(pet);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		}
 	}
 
@@ -117,22 +118,22 @@ public class PetController {
 		} else {
 			pet.setOwner(owner);
 			this.clinicService.savePet(pet);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		}
 	}
 
 	@GetMapping(value = "/pets/{petId}/remove")
 	public String processPetRemoval(@PathVariable("petId") final int petId, final Owner owner, final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
-		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
-		Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(pet.getId());
 		if (pet != null && pet.getOwner().equals(owner)) {
+			Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
+			Collection<Hotel> hotels = this.clinicService.findHotelsByPetId(pet.getId());
 			this.clinicService.removePetVisits(visits);
 			for(Hotel h : hotels) {
 				this.clinicService.removeHotel(h);
 			}
 			this.clinicService.removePet(pet);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		} else {
 			throw new IllegalArgumentException("Bad pet id or the pet does not belong to the active owner.");
 		}
@@ -142,10 +143,10 @@ public class PetController {
 	public String processPetVisitsRemoval(@PathVariable("petId") final int petId, final Owner owner,
 			final ModelMap model) {
 		Pet pet = this.clinicService.findPetById(petId);
-		Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
 		if (pet != null && pet.getOwner().equals(owner)) {
+			Collection<Visit> visits = this.clinicService.findVisitsByPetId(pet.getId());
 			this.clinicService.removePetVisits(visits);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		} else {
 			throw new IllegalArgumentException(
 					"Bad pet id, the pet does not belong to the active owner or bad visit id.");
@@ -159,7 +160,7 @@ public class PetController {
 		Visit visita = this.clinicService.findVisitById(visitId);
 		if (pet != null && pet.getOwner().equals(owner) && pet.getVisits().contains(visita)) {
 			this.clinicService.removePetVisit(visita);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		} else {
 			throw new IllegalArgumentException(
 					"Bad pet id, the pet does not belong to the active owner or bad visit id.");
@@ -173,7 +174,7 @@ public class PetController {
 		if (hotel != null && hotel.getPet().equals(this.clinicService.findPetById(petId))
 				&& hotel.getPet().getOwner().equals(owner)) {
 			this.clinicService.removeHotel(hotel);
-			return "redirect:/owners/{ownerId}";
+			return REDIRECT;
 		} else {
 			throw new IllegalArgumentException("Booking not found or bad pet!");
 		}

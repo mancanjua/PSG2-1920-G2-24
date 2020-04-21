@@ -28,7 +28,7 @@ public class CauseValidator implements Validator {
 		description = cause.getDescription();
 		targ = cause.getTarget();
 		organization = cause.getOrganization();
-		integers = targ.toString().indexOf(".");
+		integers = targ.toString().indexOf('.');
 		decimals = targ.toString().length() - integers - 1;
 		
 		if (!StringUtils.hasLength(name) || name.length()>50 || name.length()<3) {

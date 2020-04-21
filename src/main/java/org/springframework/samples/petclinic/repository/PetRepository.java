@@ -18,7 +18,6 @@ package org.springframework.samples.petclinic.repository;
 
 import java.util.List;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.PetType;
@@ -41,7 +40,7 @@ public interface PetRepository {
 	 * 
 	 * @return a <code>Collection</code> of <code>PetType</code>s
 	 */
-	List<PetType> findPetTypes() throws DataAccessException;
+	List<PetType> findPetTypes();
 
 	/**
 	 * Retrieve a <code>Pet</code> from the data store by id.
@@ -52,7 +51,7 @@ public interface PetRepository {
 	 * @throws org.springframework.dao.DataRetrievalFailureException
 	 *             if not found
 	 */
-	Pet findById(int id) throws DataAccessException;
+	Pet findById(int id);
 
 	/**
 	 * Save a <code>Pet</code> to the data store, either inserting or updating it.
@@ -61,7 +60,7 @@ public interface PetRepository {
 	 *            the <code>Pet</code> to save
 	 * @see BaseEntity#isNew
 	 */
-	void save(Pet pet) throws DataAccessException;
+	void save(Pet pet);
 
 	/**
 	 * Remove a <code>Pet</code> from the data store.
@@ -70,6 +69,5 @@ public interface PetRepository {
 	 *            the <code>Pet</code> id to remove
 	 */
 
-	void removePet(int petId) throws DataAccessException;
-
+	void removePet(int petId);
 }
