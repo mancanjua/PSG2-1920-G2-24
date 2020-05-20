@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+
 import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
@@ -38,6 +40,7 @@ public class PetValidator implements Validator {
 	public void validate(Object obj, Errors errors) {
 		Pet pet = (Pet) obj;
 		String name = pet.getName();
+		LocalDate birthday = pet.getBirthDate();
 		// name validation
 		if (!StringUtils.hasLength(name) || name.length()>50 || name.length()<3) {
 			errors.rejectValue("name", REQUIRED+" and between 3 and 50 characters", REQUIRED+" and between 3 and 50 character");
@@ -51,6 +54,10 @@ public class PetValidator implements Validator {
 		// birth date validation
 		if (pet.getBirthDate() == null) {
 			errors.rejectValue("birthDate", REQUIRED, REQUIRED);
+		}
+		
+		if(birthday.isAfter(LocalDate.now())) {
+			errors.rejectValue("birthDate", "incorrectDate", "The birthday must be before today");
 		}
 	}
 
