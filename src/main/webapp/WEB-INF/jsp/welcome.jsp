@@ -4,7 +4,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="home">
-    <h2 style="font: oblique bold 120% cursive;" ><fmt:message key="welcome"/></h2>
+   <div align="center"><h1 style="font: oblique bold 250% cursive;"><fmt:message key="welcome"/></h1>
+    </div>    
     <div class="row">
         <div class="col-md-12" style="width: 580px;height: 390px;margin-left: -290px;left: 50%; position: absolute;">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
