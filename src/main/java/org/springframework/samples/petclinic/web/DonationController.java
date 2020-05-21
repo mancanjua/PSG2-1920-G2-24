@@ -69,7 +69,7 @@ public class DonationController {
 		if (cause != null) {
 			if (result.hasErrors()) {
 				return ADD_VIEW;
-			}else if (cause.getTarget() > cause.getPresentBudget()) {
+			} else if (cause.getTarget() > cause.getPresentBudget()) {
 				donation.setCause(cause);
 				donation.setDate(LocalDate.now());
 				cause.addDonation(donation);
