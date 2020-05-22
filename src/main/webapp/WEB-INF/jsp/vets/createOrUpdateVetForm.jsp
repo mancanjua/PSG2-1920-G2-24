@@ -15,6 +15,7 @@
             <petclinic:inputField label="First Name" name="firstName"/>
             <petclinic:inputField label="Last Name" name="lastName"/>
             <petclinic:selectField label="Specialty " name="specialties" names="${specialties}" size="4"/>
+        	<p>To choose more than one speciality press ctrl while selecting the desired ones</p>
         </div>
         <div class="form-group">
         <input type="hidden" name="id" value="${vet.id}"/>
